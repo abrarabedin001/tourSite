@@ -268,9 +268,9 @@ database.query(query, function(err, data){
 let custbuysDelete = (req,res)=>{
 
 
-  const {Cid,Pid} =req.params
+  const {id1,id2} =req.params
 
-   let query = `delete from   custbuy where cid = "${cid}"  and Pid = "${Pid}" `;
+   let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" `;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -309,9 +309,9 @@ database.query(query, function(err, data){
 let package_hasDelete = (req,res)=>{
 
 
-  const {lid,pid} =req.params
+  const {id1,id2} =req.params
 
-   let query = `delete from   package_has where Lid = "${Lid}"  and Pid = "${Pid}" `;
+   let query = `delete from   package_has where Lid = "${id1}"  and Pid = "${id2}" `;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -335,9 +335,9 @@ let EworksIn =(req,res)=>{
 let EworksinDelete = (req,res)=>{
 
 
-  const {lid,emp_id} =req.params
+  const {id1,id2} =req.params
 
-  let query = `delete from   Eworksin  where lid = "${lid}"  and  emp_id = "${emp_id}" `;
+  let query = `delete from   Eworksin  where lid = "${id1}"  and  emp_id = "${id2}" `;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -436,9 +436,9 @@ database.query(query, function(err, data){
 let dependentsDelete = (req,res)=>{
 
 
-  const {cid,Dname} =req.params
+  const {id1,id2} =req.params
 
-   let query = `delete from   dependent where cid = "${cid}"  and Dname = "${Dname}" `;
+   let query = `delete from   dependent where cid = "${id1}"  and Dname = "${id2}" `;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -477,9 +477,9 @@ let DrivePost =(req,res)=>{
 let DriveDelete = (req,res)=>{
 
 
-  const {emp_id,Vlicense} =req.params
+  const {id1,id2} =req.params
 
-   let query = `delete from   drive where emp_id = "${emp_id}"  and Vlicense = "${Vlicense}" `;
+   let query = `delete from   drive where emp_id = "${id1}"  and Vlicense = "${id2}" `;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -522,7 +522,7 @@ let accommodationsDelete = (req,res)=>{
 
   const {id} =req.params
 
-  let query = `delete from   accommodation  where id = "$id}"`;
+  let query = `delete from   accommodation  where id = "${id}"`;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -563,9 +563,9 @@ database.query(query, function(err, data){
 let Acc_belongsToDelete = (req,res)=>{
 
 
-  const {aid,pid} =req.params
+  const {id1,id2} =req.params
 
-   let query = `delete from   Acc_belongsTo where aid = "${aid}"  and pid = "${pid}" `;
+   let query = `delete from   Acc_belongsTo where aid = "${id1}"  and pid = "${id2}" `;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -610,25 +610,27 @@ app.delete('/employees/:id',employeesDelete )//Done
 
 
 
+
 app.get('/receipts',Receipts)//Done
 app.post('/receipts',receiptsPost)//Done
 app.delete('/receipts/:id',receiptsDelete)//Done
 
 
-app.get('/eworksin',EworksIn)
-app.post('/eworksin', EworksinPost)
+
+app.get('/eworksin',EworksIn)//done
+app.post('/eworksin', EworksinPost)//done
 app.delete('/eworksin/:id1/:id2',EworksinDelete )//done
 
 
 
-app.get('/vehicles',Vehicles)
-app.post('/vehicles',VehiclesPost)
+app.get('/vehicles',Vehicles)//done
+app.post('/vehicles',VehiclesPost)//done
 app.delete('/vehicles/:id',VehiclesDelete )//done
 
 
-app.get('/dependents',Dependents)
-app.post('/dependents',dependentsPost)
-app.delete('/dependents/:id1/:id2',dependentsDelete )
+app.get('/dependents',Dependents)//done
+app.post('/dependents',dependentsPost)//done
+app.delete('/dependents/:id1/:id2',dependentsDelete )//done
 
 
 app.get('/custbuys',CustBuys)
