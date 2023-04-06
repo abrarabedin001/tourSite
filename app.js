@@ -220,9 +220,9 @@ database.query(query, function(err, data){
 let receiptsDelete = (req,res)=>{
 
 
-  const {Receipt_id} =req.params
+  const {id} =req.params
 
-  let query = `delete from  receipt where Receipt_id = "${Receipt_id}"`;
+  let query = `delete from  receipt where Receipt_id = "${id}"`;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -390,9 +390,9 @@ let VehiclesPost =(req,res)=>{
 let VehiclesDelete = (req,res)=>{
 
 
-  const {License} =req.params
+  const {id} =req.params
 
-  let query = `delete from   vehicle  where License = "${License}"`;
+  let query = `delete from   vehicle  where License = "${id}"`;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -615,13 +615,13 @@ app.delete('/receipts/:id',receiptsDelete)
 
 app.get('/eworksin',EworksIn)
 app.post('/eworksin', EworksinPost)
-app.delete('/eworksin/:id1/:id2',EworksinDelete )
+app.delete('/eworksin/:id1/:id2',EworksinDelete )//done
 
 
 
 app.get('/vehicles',Vehicles)
 app.post('/vehicles',VehiclesPost)
-app.delete('/vehicles/:id',VehiclesDelete )
+app.delete('/vehicles/:id',VehiclesDelete )//done
 
 
 app.get('/dependents',Dependents)
