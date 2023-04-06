@@ -245,6 +245,24 @@ let CustBuys =(req,res)=>{
   });
 
 }
+
+let custbuysPost =(req,res)=>{
+  const {Cid, Pid, Start_date, End_date}=req.body
+
+  let query = `insert into custbuy (Cid, Pid, Start_date, End_date) 
+  values('${Cid}', '${Pid}',' ${Start_date}', '${End_date}')`;
+
+database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:"data inserted"
+  	}
+	});
+  });
+}
+
+
 let custbuysDelete = (req,res)=>{
 
 
@@ -270,6 +288,22 @@ let PackageHas =(req,res)=>{
   });
 
 }
+let package_hasPost =(req,res)=>{
+  const {Lid, Pid}=req.body
+
+  let query = `insert into package_has(Lid, Pid) 
+  values('${Lid}', '${Pid}')`;
+
+database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:"data inserted"
+  	}
+	});
+  });
+}
+
 let package_hasDelete = (req,res)=>{
 
 
@@ -307,6 +341,21 @@ let EworksinDelete = (req,res)=>{
 	res.json({
   	data: {
     	message:"data deleted"
+  	}
+	});
+  });
+}
+let EworksinPost =(req,res)=>{
+  const {Lid, Emp_id, Date, Wage}=req.body
+
+  let query = `insert into Eworksin(Lid, Emp_id, Date, Wage) 
+  values('${Lid}', '${Emp_id}', '${Date}', '${Wage}')`;
+
+database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:"data inserted"
   	}
 	});
   });
@@ -365,6 +414,21 @@ let Dependents =(req,res)=>{
     });
   });
 
+}
+let dependentsPost =(req,res)=>{
+  const {Cid, Dname, Age, Number}=req.body
+
+  let query = `insert into dependent(Cid, Dname, Age, Number) 
+  values('${Cid}', '${Dname}', '${Age}', '${Number}')`;
+
+database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:"data inserted"
+  	}
+	});
+  });
 }
 
 let dependentsDelete = (req,res)=>{
@@ -435,6 +499,22 @@ let Acco =(req,res)=>{
   });
 
 }
+let accommodationsPost =(req,res)=>{
+  const {Id, Lid, Name, Contact, Price}=req.body
+
+  let query = `insert into accommodation(Id, Lid, Name, Contact, Price) 
+  values('${Id}', '${Lid}', '${Name}', '${Contact}', '${Price}')`;
+
+database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:"data inserted"
+  	}
+	});
+  });
+}
+
 let accommodationsDelete = (req,res)=>{
 
 
@@ -462,6 +542,22 @@ let AccBelongTo =(req,res)=>{
   });
 
 }
+let Acc_belongsToPost =(req,res)=>{
+  const {Aid, Pid}=req.body
+
+  let query = `insert into Acc_belongsTo(Aid, Pid) 
+  values('${Aid}', '${Lid}')`;
+
+database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:"data inserted"
+  	}
+	});
+  });
+}
+
 let Acc_belongsToDelete = (req,res)=>{
 
 
@@ -487,7 +583,7 @@ let Acc_belongsToDelete = (req,res)=>{
 
 app.get('/customers',Customers)
 app.post('/customers',CustomersPost)
-app.delete('/customers/:id',CustomersDelete)
+app.delete('/customers/:id',CustomersDelete) //done
 
 
 
@@ -518,7 +614,7 @@ app.delete('/receipts/:id',receiptsDelete)
 
 
 app.get('/eworksin',EworksIn)
-// app.post('/eworksin', EworksinPost)
+app.post('/eworksin', EworksinPost)
 app.delete('/eworksin/:id1/:id2',EworksinDelete )
 
 
@@ -529,17 +625,17 @@ app.delete('/vehicles/:id',VehiclesDelete )
 
 
 app.get('/dependents',Dependents)
-// app.post('/dependents',dependentsPost)
+app.post('/dependents',dependentsPost)
 app.delete('/dependents/:id1/:id2',dependentsDelete )
 
 
 app.get('/custbuys',CustBuys)
-// app.post('/custbuys',custbuysPost)
+app.post('/custbuys',custbuysPost)
 app.delete('/custbuys/:id1/:id2',custbuysDelete )
 
 
 app.get('/package_has',PackageHas)
-// app.post('/package_has',package_hasPost)
+app.post('/package_has',package_hasPost)
 app.delete('/package_has/:id1/:id2',package_hasDelete )
 
 
@@ -551,12 +647,12 @@ app.delete('/drives/:id1/:id2',DriveDelete )
 
 
 app.get('/accommodations',Acco)
-// app.post('/accommodations',accommodationsPost)
+app.post('/accommodations',accommodationsPost)
 app.delete('/accommodations/:id',accommodationsDelete )
 
 
 app.get('/accBelongTo',AccBelongTo)
-// app.post('/accBelongTo',Acc_belongsToPost)
+app.post('/accBelongTo',Acc_belongsToPost)
 app.delete('/accBelongTo/:id1/:id2',Acc_belongsToDelete)
 
 
