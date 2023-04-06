@@ -356,6 +356,24 @@ let EworksIn =(req,res)=>{
   });
 
 }
+let EworksinPatch = (req,res)=>{
+
+
+  const {id1,id2} =req.params
+  const {Lid,Date,Wage}=req.body
+  let query = `update eworksin Set lid='${Lid}', date='${Date}',wage=${Wage}
+  Where emp_id='${id2}' and lid='${id1}' `;
+
+  // let query = `delete from   Eworksin  where lid = "${id1}"  and  emp_id = "${id2}" `;
+  database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:query
+  	}
+	});
+  });
+}
 let EworksinDelete = (req,res)=>{
 
 
@@ -644,6 +662,8 @@ app.delete('/receipts/:id',receiptsDelete)//Done
 
 app.get('/eworksin',EworksIn)//done
 app.post('/eworksin', EworksinPost)//done
+app.patch('/eworksin/:id1/:id2', EworksinPatch)//done
+
 app.delete('/eworksin/:id1/:id2',EworksinDelete )//done
 
 
