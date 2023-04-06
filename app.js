@@ -56,7 +56,26 @@ let CustomersDelete = (req,res)=>{
 
 
 
+let CustomersPatch =(req,res)=>{
 
+  const {id} = req.params
+  const {password,phone}=req.body
+
+  let query = `UPDATE customer
+  SET password= '${password}', phone='${phone}'
+  WHERE id = '${id}'`
+
+
+ 
+  database.query(query, function(err, data){
+    if (err) throw err;
+    res.json({
+      data: {
+        message:"data updated"
+      }
+    });
+  });
+}
 
 
 //////////////////////////////////
@@ -448,6 +467,8 @@ let VehiclesDelete = (req,res)=>{
 }
 
 
+
+
 ///////////////////
 
 let Dependents =(req,res)=>{
@@ -575,6 +596,29 @@ let accommodationsDelete = (req,res)=>{
   });
 }
 
+
+
+let accommodationsPatch =(req,res)=>{
+
+  const {id} = req.params
+  const {Name,Contact,Price}=req.body
+
+  let query = `UPDATE accommodation
+  SET Name= '${Name}', Contact='${Contact}', Price='${Price}'
+  WHERE Id = '${id}'`
+
+
+ 
+  database.query(query, function(err, data){
+    if (err) throw err;
+    res.json({
+      data: {
+        message:"data updated"
+      }
+    });
+  });
+}
+
 ////////////////////////////////////////
 
 let AccBelongTo =(req,res)=>{
@@ -626,6 +670,7 @@ let Acc_belongsToDelete = (req,res)=>{
 // ////////////////////////////////////
 
 app.get('/customers',Customers)//done
+app.patch('/customers/:id',CustomersPatch)//done
 app.post('/customers',CustomersPost)//done
 app.delete('/customers/:id',CustomersDelete) //done
 
@@ -696,6 +741,7 @@ app.delete('/drives/:id1/:id2',DriveDelete )//Done
 
 
 app.get('/accommodations',Acco)//Done
+app.patch('/accommodations/:id',accommodationsPatch)//Done
 app.post('/accommodations',accommodationsPost)//Done
 app.delete('/accommodations/:id',accommodationsDelete )//Done
 
