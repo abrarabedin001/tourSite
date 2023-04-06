@@ -603,16 +603,16 @@ app.delete('/locations/:id',locationsDelete )//DOne
 
 
 
-app.get('/employees',Employees)
-app.post('/employees',employeesPost)
-app.delete('/employees/:id',employeesDelete )
+app.get('/employees',Employees)//Done
+app.post('/employees',employeesPost)//Done
+app.delete('/employees/:id',employeesDelete )//Done
 
 
 
 
-app.get('/receipts',Receipts)
-app.post('/receipts',receiptsPost)
-app.delete('/receipts/:id',receiptsDelete)
+app.get('/receipts',Receipts)//Done
+app.post('/receipts',receiptsPost)//Done
+app.delete('/receipts/:id',receiptsDelete)//Done
 
 
 app.get('/eworksin',EworksIn)
