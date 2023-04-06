@@ -333,9 +333,9 @@ let EworksIn =(req,res)=>{
 let EworksinDelete = (req,res)=>{
 
 
-  const {lid,emp_id} =req.params
+  const {id1,id2} =req.params
 
-  let query = `delete from   Eworksin  where lid = "${lid}"  and  emp_id = "${emp_id}" `;
+  let query = `delete from   Eworksin  where lid = "${id1}"  and  emp_id = "${id2}" `;
   database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -610,12 +610,12 @@ app.delete('/employees/:id',employeesDelete )
 
 app.get('/receipts',Receipts)
 app.post('/receipts',receiptsPost)
-app.delete('/receipts/:id',receiptsDelete)
+app.delete('/receipts/:id',receiptsDelete)//done
 
 
 app.get('/eworksin',EworksIn)
 app.post('/eworksin', EworksinPost)
-app.delete('/eworksin/:id1/:id2',EworksinDelete )//done
+app.delete('/eworksin/:id1/:id2',EworksinDelete )
 
 
 
