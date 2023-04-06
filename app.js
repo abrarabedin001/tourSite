@@ -462,9 +462,9 @@ let Drives =(req,res)=>{
 let DrivePost =(req,res)=>{
 
 
-  const {emp_id,Vlicense,Date}=req.body
+  const {Emp_id,Vlicense,Date}=req.body
   console.log(req.body)
-  let query = `insert into drive (emp_id,Vlicense,Date) values('${emp_id}','${Vlicense}','${Date}')`;
+  let query = `insert into drive (emp_id,Vlicense,Date) values('${Emp_id}','${Vlicense}','${Date}')`;
   database.query(query, function(err, data){
     if (err) throw err;
     res.json({
@@ -536,7 +536,7 @@ let accommodationsDelete = (req,res)=>{
 ////////////////////////////////////////
 
 let AccBelongTo =(req,res)=>{
-  var query = "SELECT * FROM accommodation";
+  var query = "SELECT * FROM acc_belongsto";
   database.query(query, function(error, data){
     res.json({
       data: data
@@ -548,7 +548,7 @@ let Acc_belongsToPost =(req,res)=>{
   const {Aid, Pid}=req.body
 
   let query = `insert into Acc_belongsTo(Aid, Pid) 
-  values('${Aid}', '${Lid}')`;
+  values('${Aid}', '${Pid}')`;
 
 database.query(query, function(err, data){
 	if (err) throw err;
@@ -644,20 +644,20 @@ app.delete('/package_has/:id1/:id2',package_hasDelete )
 
 
 
-app.get('/drives',Drives)
-app.post('/drives',DrivePost)
-app.delete('/drives/:id1/:id2',DriveDelete )
+app.get('/drives',Drives)//Done
+app.post('/drives',DrivePost)//Done
+app.delete('/drives/:id1/:id2',DriveDelete )//Done
 
 
 
-app.get('/accommodations',Acco)
-app.post('/accommodations',accommodationsPost)
-app.delete('/accommodations/:id',accommodationsDelete )
+app.get('/accommodations',Acco)//Done
+app.post('/accommodations',accommodationsPost)//Done
+app.delete('/accommodations/:id',accommodationsDelete )//Done
 
 
-app.get('/accBelongTo',AccBelongTo)
-app.post('/accBelongTo',Acc_belongsToPost)
-app.delete('/accBelongTo/:id1/:id2',Acc_belongsToDelete)
+app.get('/accBelongTo',AccBelongTo)//Done
+app.post('/accBelongTo',Acc_belongsToPost)//Done
+app.delete('/accBelongTo/:id1/:id2',Acc_belongsToDelete)//Done
 
 
 
