@@ -518,28 +518,28 @@ app.delete('/receipts/:id',receiptsDelete)
 
 
 app.get('/eworksin',EworksIn)
-app.post('/eworksin', EworksinPost)
+// app.post('/eworksin', EworksinPost)
 app.delete('/eworksin/:id1/:id2',EworksinDelete )
 
 
 
 app.get('/vehicles',Vehicles)
-app.post('/vehicles',VehiclesPost)\
+app.post('/vehicles',VehiclesPost)
 app.delete('/vehicles/:id',VehiclesDelete )
 
 
 app.get('/dependents',Dependents)
-app.post('/dependents',dependentsPost)
+// app.post('/dependents',dependentsPost)
 app.delete('/dependents/:id1/:id2',dependentsDelete )
 
 
 app.get('/custbuys',CustBuys)
-app.post('/custbuys',custbuysPost)
+// app.post('/custbuys',custbuysPost)
 app.delete('/custbuys/:id1/:id2',custbuysDelete )
 
 
 app.get('/package_has',PackageHas)
-app.post('/package_has',package_hasPost)
+// app.post('/package_has',package_hasPost)
 app.delete('/package_has/:id1/:id2',package_hasDelete )
 
 
@@ -551,12 +551,12 @@ app.delete('/drives/:id1/:id2',DriveDelete )
 
 
 app.get('/accommodations',Acco)
-app.post('/accommodations',accommodationsPost)
+// app.post('/accommodations',accommodationsPost)
 app.delete('/accommodations/:id',accommodationsDelete )
 
 
 app.get('/accBelongTo',AccBelongTo)
-app.post('/accBelongTo',Acc_belongsToPost)
+// app.post('/accBelongTo',Acc_belongsToPost)
 app.delete('/accBelongTo/:id1/:id2',Acc_belongsToDelete)
 
 
