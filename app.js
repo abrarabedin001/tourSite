@@ -24,9 +24,10 @@ let Customers =(req,res)=>{
 let CustomersPost =(req,res)=>{
 
   console.log(req.body)
-  const {id,name,phone,email,address,user_name,password}=req.body
+  const {Id,Name,Phone,Email,Address,User_name,Password}=req.body
 
-  let query = `insert into customer (id,name,phone,email,address,user_name,password) values('${id}','${name}',"${phone}","${email}",'${address}','${user_name}','${password}')`;
+
+  let query = `insert into customer (id,name,phone,email,address,user_name,password) values('${Id}','${Name}',"${Phone}","${Email}",'${Address}','${User_name}','${Password}')`;
   database.query(query, function(err, data){
     if (err) throw err;
     res.json({
@@ -154,6 +155,7 @@ let employeesDelete = (req,res)=>{
 ////////////////////////////////////////
 
 let locationsPost =(req,res)=>{
+  console.log(req.body);
   const {Id, Name, Description, Types}=req.body
 
   let query = `insert into location (Id, Name, Description, Types) 
@@ -581,22 +583,22 @@ let Acc_belongsToDelete = (req,res)=>{
 
 // ////////////////////////////////////
 
-app.get('/customers',Customers)
-app.post('/customers',CustomersPost)
+app.get('/customers',Customers)//done
+app.post('/customers',CustomersPost)//done
 app.delete('/customers/:id',CustomersDelete) //done
 
 
 
 
-app.get('/packages',Packages)
-app.post('/packages',packagesPost)
-app.delete('/packages/:id',packagesDelete)
+app.get('/packages',Packages)//done
+app.post('/packages',packagesPost)//done
+app.delete('/packages/:id',packagesDelete)//done
 
 
 
-app.get('/locations',Locations)
-app.post('/locations',locationsPost )
-app.delete('/locations/:id',locationsDelete )
+app.get('/locations',Locations)//DOne
+app.post('/locations',locationsPost )//Done
+app.delete('/locations/:id',locationsDelete )//DOne
 
 
 
