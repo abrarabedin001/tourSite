@@ -24,9 +24,10 @@ let Customers =(req,res)=>{
 let CustomersPost =(req,res)=>{
 
   console.log(req.body)
-  const {id,name,phone,email,address,user_name,password}=req.body
+  const {Id,Name,Phone,Email,Address,User_name,Password}=req.body
 
-  let query = `insert into customer (id,name,phone,email,address,user_name,password) values('${id}','${name}',"${phone}","${email}",'${address}','${user_name}','${password}')`;
+
+  let query = `insert into customer (id,name,phone,email,address,user_name,password) values('${Id}','${Name}',"${Phone}","${Email}",'${Address}','${User_name}','${Password}')`;
   database.query(query, function(err, data){
     if (err) throw err;
     res.json({
