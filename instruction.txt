@@ -1,0 +1,22 @@
+1.you will have to create
+
+example :
+
+git checkout main		//going to main branch
+git pull origin main	// main er code download kortoso 
+		
+
+git checkout -b branchName
+git pull origin main
+
+
+2: work in that branch
+
+git add .
+git commit -m "eita hoise"
+git push origin branchName
+
+
+
+i will create pullRequest
+merge
