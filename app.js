@@ -633,14 +633,14 @@ app.post('/dependents',dependentsPost)//done
 app.delete('/dependents/:id1/:id2',dependentsDelete )//done
 
 
-app.get('/custbuys',CustBuys)
-app.post('/custbuys',custbuysPost)
-app.delete('/custbuys/:id1/:id2',custbuysDelete )
+app.get('/custbuys',CustBuys)//done
+app.post('/custbuys',custbuysPost)//done
+app.delete('/custbuys/:id1/:id2',custbuysDelete )//done
 
 
-app.get('/package_has',PackageHas)
-app.post('/package_has',package_hasPost)
-app.delete('/package_has/:id1/:id2',package_hasDelete )
+app.get('/package_has',PackageHas)//done
+app.post('/package_has',package_hasPost)//done
+app.delete('/package_has/:id1/:id2',package_hasDelete )//done
 
 
 
