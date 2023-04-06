@@ -70,12 +70,36 @@ let Packages =(req,res)=>{
   });
 
 }
+
+let PackagesPatch =(req,res)=>{
+
+  console.log(req.body,req.params)
+  const {id} = req.params
+  const {Name,Availability}=req.body
+
+  let query = `UPDATE package
+  SET name= '${Name}', availability='${Availability}'
+  WHERE id = '${id}'`
+
+
+ 
+  database.query(query, function(err, data){
+    if (err) throw err;
+    res.json({
+      data: {
+        message:query
+      }
+    });
+  });
+}
+
+
 let packagesPost =(req,res)=>{
 
   console.log(req.body)
-  const {id,name,Availability}=req.body
+  const {Id,Name,Availability}=req.body
 
-  let query = `insert into package (id,name,Availability) values('${id}','${name}','${Availability}')`;
+  let query = `insert into package (id,name,Availability) values('${Id}','${Name}','${Availability}')`;
   database.query(query, function(err, data){
     if (err) throw err;
     res.json({
@@ -591,6 +615,7 @@ app.delete('/customers/:id',CustomersDelete) //done
 
 
 app.get('/packages',Packages)//done
+app.patch('/packages/:id',PackagesPatch)//done
 app.post('/packages',packagesPost)//done
 app.delete('/packages/:id',packagesDelete)//done
 

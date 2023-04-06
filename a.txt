@@ -1,0 +1,3 @@
+UPDATE package
+SET name= 'kingdom', availability= 1
+WHERE id = '01';
