@@ -356,6 +356,24 @@ let EworksIn =(req,res)=>{
   });
 
 }
+let EworksinPatch = (req,res)=>{
+
+
+  const {id1,id2} =req.params
+  const {Lid,Date,Wage}=req.body
+  let query = `update eworksin Set lid='${Lid}', date='${Date}',wage=${Wage}
+  Where emp_id='${id2}' and lid='${id1}' `;
+
+  // let query = `delete from   Eworksin  where lid = "${id1}"  and  emp_id = "${id2}" `;
+  database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:query
+  	}
+	});
+  });
+}
 let EworksinDelete = (req,res)=>{
 
 
@@ -644,6 +662,8 @@ app.delete('/receipts/:id',receiptsDelete)//Done
 
 app.get('/eworksin',EworksIn)//done
 app.post('/eworksin', EworksinPost)//done
+app.patch('/eworksin/:id1/:id2', EworksinPatch)//done
+
 app.delete('/eworksin/:id1/:id2',EworksinDelete )//done
 
 
@@ -698,49 +718,3 @@ app.listen(port,()=>{
 
 
 
-
-// done
-// app.get('/customers',Customers)
-// app.post('/customers',CustomersPost)
-// app.delete('/customers/:id',CustomersDelete)
-
-
-
-// // done
-// app.get('/packages',Packages)
-// app.post('/packages',packagesPost)
-
-
-// // Done
-// app.get('/locations',Locations)
-// app.post('/locations',locationsPost )
-
-
-
-// // Done
-// app.get('/employees',Employees)
-// app.post('/employees',employeesPost)
-
-
-
-// // Done
-// app.get('/receipts',Receipts)
-// app.post('/receipts',receiptsPost)
-
-// app.get('/custbuys',CustBuys)
-// app.get('/package_has',PackageHas)
-// app.get('/eworksin',EworksIn)
-
-// // Done
-// app.get('/vehicles',Vehicles)
-// app.post('/vehicles',VehiclesPost)
-// app.get('/dependents',Dependents)
-
-// // Done
-// app.get('/drives',Drives)
-// app.post('/drives',DrivePost)
-
-// app.get('/accommodations',Acco)
-// app.get('/accBelongTo',AccBelongTo)
-
-//hello everyone

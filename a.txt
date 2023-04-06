@@ -1,3 +1,10 @@
 UPDATE package
 SET name= 'kingdom', availability= 1
 WHERE id = '01';
+
+
+Set lid='02',date='2020-10-10',wage=444
+Where emp_id='02';
+
+
+update eworksin Set lid='02',date='2022-01-01T18:00:00.000Z',wage=1000 Where emp_id='02' and lid='02';
