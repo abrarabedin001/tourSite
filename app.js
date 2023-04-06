@@ -610,19 +610,19 @@ app.delete('/employees/:id',employeesDelete )
 
 
 
-app.get('/receipts',Receipts)
-app.post('/receipts',receiptsPost)
+app.get('/receipts',Receipts)//done
+app.post('/receipts',receiptsPost)//done
 app.delete('/receipts/:id',receiptsDelete)//done
 
 
-app.get('/eworksin',EworksIn)
-app.post('/eworksin', EworksinPost)
-app.delete('/eworksin/:id1/:id2',EworksinDelete )
+app.get('/eworksin',EworksIn)//done
+app.post('/eworksin', EworksinPost)//done
+app.delete('/eworksin/:id1/:id2',EworksinDelete )//done
 
 
 
-app.get('/vehicles',Vehicles)
-app.post('/vehicles',VehiclesPost)
+app.get('/vehicles',Vehicles)//done
+app.post('/vehicles',VehiclesPost)//done
 app.delete('/vehicles/:id',VehiclesDelete )//done
 
 
