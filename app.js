@@ -236,19 +236,23 @@ database.query(query, function(err, data){
 let employeesPost =(req,res)=>{
   console.log(req.body,"sdfsdf")
   
-//   const {Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype}=req.body
+  const {Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype}=req.body
+  let p1 = Number(Phone)
+  let p2 = Number(Hour_work)
+  let p3 = Number(Salary_per_hour)
+  console.log(p1,p2,p3)
 
-//   let query = `insert into employee (Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype) 
-//   values('${Id}', '${User_name}', '${Password}', '${Phone}', '${Hour_work}', '${Joining_date}', '${Leaving_date}',' ${Salary_per_hour}','${Etype}')`;
-
-// database.query(query, function(err, data){
-// 	if (err) throw err;
-// 	res.json({
-//   	data: {
-//     	message:"data inserted"
-//   	}
-// 	});
-//   });
+  let query = `insert into employee (Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype) 
+  values('${Id}', '${User_name}', '${Password}', '${p1}', '${p2}', '${Joining_date}', '${Leaving_date}','${p3}','${Etype}')`;
+  console.log(query)
+database.query(query, function(err, data){
+	if (err) throw err;
+	res.json({
+  	data: {
+    	message:"data inserted"
+  	}
+	});
+  });
 }
 
 
