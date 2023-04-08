@@ -36,6 +36,20 @@ let Customers =(req,res)=>{
     });
 
 }
+let Authenticate =(req,res)=>{
+  const {Id,Password}=req.params
+  console.log(Id,Password)
+  let query = `SELECT * FROM employee where id='${Id}' and password='${Password}'`;
+  // let query = "SELECT * FROM customer";
+  console.log(query)
+  database.query(query, function(error, data){
+    res.json({
+      data: data
+    });
+  });
+
+}
+
 
 let CustomersPost =(req,res)=>{
 
@@ -770,6 +784,9 @@ app.delete('/accommodations/:id',accommodationsDelete )//Done
 app.get('/accBelongTo',AccBelongTo)//Done
 app.post('/accBelongTo',Acc_belongsToPost)//Done
 app.delete('/accBelongTo/:id1/:id2',Acc_belongsToDelete)//Done
+
+
+app.get('/authenticate/:Id/:Password',Authenticate)//Done
 
 
 
