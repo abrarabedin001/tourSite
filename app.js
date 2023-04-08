@@ -2,10 +2,26 @@
 
 
 const express = require('express');
+const cors = require('cors')
+
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200
+};
+
 
 const app = express();
 
 app.use(express.json())
+// app.use(function(req,res,next){
+//   res.header('Access-Control-Allow-Origin','*');
+//   res.header('Access-Control-Allow-Methods','GET,PUT,POST,PATCH,DELETE');
+//   res.header('Access-Control-Allow-Headers','Content-Type');
+ 
+// })
+app.use(cors(corsOptions))
 
 
 const database = require('./database');
@@ -20,6 +36,20 @@ let Customers =(req,res)=>{
     });
 
 }
+let Authenticate =(req,res)=>{
+  const {Id,Password}=req.params
+  console.log(Id,Password)
+  let query = `SELECT * FROM employee where id='${Id}' and password='${Password}'`;
+  // let query = "SELECT * FROM customer";
+  console.log(query)
+  database.query(query, function(error, data){
+    res.json({
+      data: data
+    });
+  });
+
+}
+
 
 let CustomersPost =(req,res)=>{
 
@@ -218,12 +248,17 @@ database.query(query, function(err, data){
 
 
 let employeesPost =(req,res)=>{
+  console.log(req.body,"sdfsdf")
   
   const {Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype}=req.body
+  let p1 = Number(Phone)
+  let p2 = Number(Hour_work)
+  let p3 = Number(Salary_per_hour)
+  console.log(p1,p2,p3)
 
   let query = `insert into employee (Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype) 
-  values('${Id}', '${User_name}', '${Password}', '${Phone}', '${Hour_work}', '${Joining_date}', '${Leaving_date}',' ${Salary_per_hour}','${Etype}')`;
-
+  values('${Id}', '${User_name}', '${Password}', '${p1}', '${p2}', '${Joining_date}', '${Leaving_date}','${p3}','${Etype}')`;
+  console.log(query)
 database.query(query, function(err, data){
 	if (err) throw err;
 	res.json({
@@ -619,7 +654,7 @@ let accommodationsPatch =(req,res)=>{
   });
 }
 
-////////////////////////////////////////
+//////////////////////////////////////// 
 
 let AccBelongTo =(req,res)=>{
   var query = "SELECT * FROM acc_belongsto";
@@ -751,11 +786,14 @@ app.post('/accBelongTo',Acc_belongsToPost)//Done
 app.delete('/accBelongTo/:id1/:id2',Acc_belongsToDelete)//Done
 
 
+app.get('/authenticate/:Id/:Password',Authenticate)//Done
 
 
 
 
-const port = 3000;
+
+
+const port = 3001;
 app.listen(port,()=>{
   console.log(`App running on port ${port}...`)
 });
