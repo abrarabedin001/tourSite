@@ -365,7 +365,8 @@ let custbuysDelete = (req, res) => {
 };
 /////////////////////////
 let PackageHas = (req, res) => {
-  var query = 'SELECT * FROM package_has';
+  var query =
+    'SELECT p.lid, l.name as location_name, p.pid , pa.name as package_name FROM package_has p,location l, package pa where pa.id = p.pid and l.id = p.lid;';
   database.query(query, function (error, data) {
     res.json({
       data: data,
