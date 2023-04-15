@@ -285,9 +285,7 @@ let employeesPost = (req, res) => {
 
 //////////////////////////
 
-
 let Receipts = (req, res) => {
-
   let { id } = req.params;
   if (id) {
     let query = `select  r.Receipt_id,r.cid,c.name as c_name,r.pid,p.name as p_name,r.paid_unpaid from receipt r, customer c, package p where r.cid=c.id and r.pid=p.id and cid = '${id}'`;
@@ -297,7 +295,8 @@ let Receipts = (req, res) => {
       });
     });
   } else {
-    let query = 'select  r.Receipt_id,r.cid,c.name as c_name,r.pid,p.name as p_name,r.paid_unpaid from receipt r, customer c, package p where r.cid=c.id and r.pid=p.id';
+    let query =
+      'select  r.Receipt_id,r.cid,c.name as c_name,r.pid,p.name as p_name,r.paid_unpaid from receipt r, customer c, package p where r.cid=c.id and r.pid=p.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -337,11 +336,10 @@ let receiptsDelete = (req, res) => {
 
 /////////////////////////////////////
 
-
 let Custbuys = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
+    let query = `SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -349,7 +347,7 @@ let Custbuys = (req, res) => {
     });
   } else {
     let query =
-      'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+      'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -431,13 +429,31 @@ let package_hasDelete = (req, res) => {
 let EworksIn = (req, res) => {
   // Select ew.lid, l.name as Lname,ew.emp_id, e.name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id
   // var query = "SELECT * FROM Eworksin";
-  var query =
-    'Select ew.lid, l.name as Lname,ew.emp_id, e.user_name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query =
+  //   'Select ew.lid, l.name as Lname,ew.emp_id, e.user_name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+  let { id } = req.params;
+  console.log('kaj kore');
+  if (id) {
+    let query = `Select ew.lid, l.name as Lname,ew.emp_id, e.user_name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id and ew.emp_id = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query =
+      'Select ew.lid, l.name as Lname,ew.emp_id, e.user_name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
 let EworksinPatch = (req, res) => {
   const { id1, id2 } = req.params;
@@ -775,7 +791,7 @@ let CusHireDelete = (req, res) => {
 
 // ////////////////////////////////////
 
-// 
+//
 let CusBooks = (req, res) => {
   let { id } = req.params;
   if (id) {
@@ -786,7 +802,8 @@ let CusBooks = (req, res) => {
       });
     });
   } else {
-    let query = 'SELECT cs.cid,c.name as c_name, cs.aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
+    let query =
+      'SELECT cs.cid,c.name as c_name, cs.aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -847,7 +864,7 @@ app.get('/receipts/:id?', Receipts); //Done
 app.post('/receipts', receiptsPost); //Done
 app.delete('/receipts/:id', receiptsDelete); //Done
 
-app.get('/eworksin', EworksIn); //done
+app.get('/eworksin/:id?', EworksIn); //done
 app.post('/eworksin', EworksinPost); //done
 app.patch('/eworksin/:id1/:id2', EworksinPatch); //done
 app.delete('/eworksin/:id1/:id2', EworksinDelete); //done
