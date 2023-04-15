@@ -672,6 +672,60 @@ let Acc_belongsToDelete = (req, res) => {
 };
 /////////////////////////////////
 
+let CusBooks = (req, res) => {
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM cusbook where cid = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  } else {
+    let query = 'SELECT * FROM cusbook';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+};
+
+let CusBooksPost = (req, res) => {
+  const { Cid, Aid } = req.body;
+
+
+  let query = `insert into CusBook(Cid, Aid)
+  values('${Cid}', '${Aid}')`;
+
+
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
+
+let CusBooksDelete = (req, res) => {
+  const { id1, id2 } = req.params;
+
+
+  let query = `delete from   CusBook where Cid = "${id1}"  and Aid = "${id2}" `;
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data deleted',
+      },
+    });
+  });
+};
+
+
 // ////////////////////////////////////
 
 app.get('/customers/:id?', Customers); //done
@@ -731,6 +785,12 @@ app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
 
 app.get('/authenticate/:Id/:Password', Authenticate); //Done
 app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
+
+
+app.get('/cusbook/:id?', CusBooks); //Done
+app.post('/cusbook', CusBooksPost); //Done
+app.delete('/cusbook/:id1/:id2', CusBooksDelete); //Done
+
 
 app.ge;
 
