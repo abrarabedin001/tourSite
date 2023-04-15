@@ -500,12 +500,30 @@ let VehiclesDelete = (req, res) => {
 ///////////////////
 
 let Dependents = (req, res) => {
-  var query = 'SELECT * FROM dependent';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query = 'SELECT * FROM dependent';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+  console.log('hello');
+
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM dependent where cid = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query = 'SELECT * FROM dependent';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
 let dependentsPost = (req, res) => {
   const { Cid, Dname, Age, Number } = req.body;
@@ -810,7 +828,7 @@ app.delete('/eworksin/:id1/:id2', EworksinDelete); //done
 app.route('/vehicles').get(Vehicles).post(VehiclesPost); //done
 app.delete('/vehicles/:id', VehiclesDelete); //done
 
-app.get('/dependents', Dependents); //done
+app.get('/dependents/:id?', Dependents); //done
 app.post('/dependents', dependentsPost); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
