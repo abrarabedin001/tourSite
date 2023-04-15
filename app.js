@@ -285,17 +285,18 @@ let employeesPost = (req, res) => {
 
 //////////////////////////
 
+//select Receipt_id,r.cid,c.name,r.pid,p.name,r.paid_unpaid from receipt r, customer c, package p where r.cid=p.id and r.pid=p.id;
 let  Receipts = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT * FROM receipt where cid = '${id}'`;
+    let query = `select  r.Receipt_id,r.cid,c.name as c_name,r.pid,p.name as p_name,r.paid_unpaid from receipt r, customer c, package p where r.cid=c.id and r.pid=p.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
       });
     });
   } else {
-    let query = 'SELECT * FROM receipt';
+    let query = 'select  r.Receipt_id,r.cid,c.name as c_name,r.pid,p.name as p_name,r.paid_unpaid from receipt r, customer c, package p where r.cid=c.id and r.pid=p.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -335,11 +336,10 @@ let receiptsDelete = (req, res) => {
 
 /////////////////////////////////////
 
-    // 'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
 let Custbuys = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT * FROM custbuy where cid = '${id}'`;
+    let query = `SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
