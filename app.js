@@ -537,7 +537,9 @@ let dependentsDelete = (req, res) => {
 ////////////////////////////
 
 let Drives = (req, res) => {
-  var query = 'SELECT * FROM drive';
+  var query1 = 'SELECT * FROM drive';
+  var query =
+    'SELECT d.emp_id, e.user_name ,d.vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -787,14 +789,11 @@ app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
 app.get('/authenticate/:Id/:Password', Authenticate); //Done
 app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
 
+
 app.get('/CusHire/:id?', CusHire); //done
 app.post('/CusHire', CusHirePost); //done
 app.delete('/CusHire/:id', CusHireDelete); //done
 
-// app.get('/customers/:id?', Customers); //done
-// app.patch('/customers/:id', CustomersPatch); //done
-// app.post('/customers', CustomersPost); //done
-// app.delete('/customers/:id', CustomersDelete); //done
 
 const port = 3001;
 app.listen(port, () => {
