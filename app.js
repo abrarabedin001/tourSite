@@ -238,7 +238,7 @@ let locationsPost = (req, res) => {
   console.log(req.body);
   const { Id, Name, Description, Types } = req.body;
 
-  let query = `insert into location (Id, Name, Description, Types) 
+  let query = `insert into location (Id, Name, Description, Types)
   values('${Id}', '${Name}', '${Description}', '${Types}')`;
 
   database.query(query, function (err, data) {
@@ -270,7 +270,7 @@ let employeesPost = (req, res) => {
   let p3 = Number(Salary_per_hour);
   console.log(p1, p2, p3);
 
-  let query = `insert into employee (Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype) 
+  let query = `insert into employee (Id, User_name, Password, Phone, Hour_work, Joining_date, Leaving_date, Salary_per_hour, Etype)
   values('${Id}', '${User_name}', '${Password}', '${p1}', '${p2}', '${Joining_date}', '${Leaving_date}','${p3}','${Etype}')`;
   console.log(query);
   database.query(query, function (err, data) {
@@ -296,7 +296,7 @@ let Receipts = (req, res) => {
 let receiptsPost = (req, res) => {
   const { Receipt_id, Pid, Cid, Date, Paid_unpaid } = req.body;
 
-  let query = `insert into receipt (Receipt_id, Pid, Cid, Date, Paid_unpaid) 
+  let query = `insert into receipt (Receipt_id, Pid, Cid, Date, Paid_unpaid)
   values('${Receipt_id}', '${Pid}', '${Cid}', '${Date}', '${Paid_unpaid}')`;
 
   database.query(query, function (err, data) {
@@ -336,7 +336,7 @@ let CustBuys = (req, res) => {
 let custbuysPost = (req, res) => {
   const { Cid, Pid, Start_date, End_date } = req.body;
 
-  let query = `insert into custbuy (Cid, Pid, Start_date, End_date) 
+  let query = `insert into custbuy (Cid, Pid, Start_date, End_date)
   values('${Cid}', '${Pid}',' ${Start_date}', '${End_date}')`;
 
   database.query(query, function (err, data) {
@@ -374,7 +374,7 @@ let PackageHas = (req, res) => {
 let package_hasPost = (req, res) => {
   const { Lid, Pid } = req.body;
 
-  let query = `insert into package_has(Lid, Pid) 
+  let query = `insert into package_has(Lid, Pid)
   values('${Lid}', '${Pid}')`;
 
   database.query(query, function (err, data) {
@@ -445,7 +445,7 @@ let EworksinDelete = (req, res) => {
 let EworksinPost = (req, res) => {
   const { Lid, Emp_id, Date, Wage } = req.body;
 
-  let query = `insert into Eworksin(Lid, Emp_id, Date, Wage) 
+  let query = `insert into Eworksin(Lid, Emp_id, Date, Wage)
   values('${Lid}', '${Emp_id}', '${Date}', '${Wage}')`;
 
   database.query(query, function (err, data) {
@@ -508,7 +508,7 @@ let Dependents = (req, res) => {
 let dependentsPost = (req, res) => {
   const { Cid, Dname, Age, Number } = req.body;
 
-  let query = `insert into dependent(Cid, Dname, Age, Number) 
+  let query = `insert into dependent(Cid, Dname, Age, Number)
   values('${Cid}', '${Dname}', '${Age}', '${Number}')`;
 
   database.query(query, function (err, data) {
@@ -585,7 +585,7 @@ let Acco = (req, res) => {
 let accommodationsPost = (req, res) => {
   const { Id, Lid, Name, Contact, Price } = req.body;
 
-  let query = `insert into accommodation(Id, Lid, Name, Contact, Price) 
+  let query = `insert into accommodation(Id, Lid, Name, Contact, Price)
   values('${Id}', '${Lid}', '${Name}', '${Contact}', '${Price}')`;
 
   database.query(query, function (err, data) {
@@ -646,7 +646,7 @@ let AccBelongTo = (req, res) => {
 let Acc_belongsToPost = (req, res) => {
   const { Aid, Pid } = req.body;
 
-  let query = `insert into Acc_belongsTo(Aid, Pid) 
+  let query = `insert into Acc_belongsTo(Aid, Pid)
   values('${Aid}', '${Pid}')`;
 
   database.query(query, function (err, data) {
@@ -673,7 +673,6 @@ let Acc_belongsToDelete = (req, res) => {
   });
 };
 /////////////////////////////////
-
 
 let CusHire = (req, res) => {
   // var query = 'SELECT * FROM employee';
@@ -704,7 +703,7 @@ let CusHirePost = (req, res) => {
   const { cid, Vlicense } = req.body;
   console.log(req.body);
   let query = `insert into CusHire (cid, Vlicense) values('${cid}','${Vlicense}')`;
-  console.log(query)
+  console.log(query);
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -730,6 +729,54 @@ let CusHireDelete = (req, res) => {
 };
 
 // ////////////////////////////////////
+let CusBooks = (req, res) => {
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM cusbook where cid = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  } else {
+    let query = 'SELECT * FROM cusbook';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+};
+
+let CusBooksPost = (req, res) => {
+  const { Cid, Aid } = req.body;
+
+  let query = `insert into CusBook(Cid, Aid)
+  values('${Cid}', '${Aid}')`;
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
+let CusBooksDelete = (req, res) => {
+  const { id1, id2 } = req.params;
+  let query = `delete from   CusBook where Cid = "${id1}"  and Aid = "${id2}" `;
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data deleted',
+      },
+    });
+  });
+};
+
+////////////////////////
 
 app.get('/customers/:id?', Customers); //done
 app.patch('/customers/:id', CustomersPatch); //done
@@ -789,11 +836,13 @@ app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
 app.get('/authenticate/:Id/:Password', Authenticate); //Done
 app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
 
-
 app.get('/CusHire/:id?', CusHire); //done
 app.post('/CusHire', CusHirePost); //done
 app.delete('/CusHire/:id', CusHireDelete); //done
 
+app.get('/cusbook/:id?', CusBooks); //Done
+app.post('/cusbook', CusBooksPost); //Done
+app.delete('/cusbook/:id1/:id2', CusBooksDelete); //Done
 
 const port = 3001;
 app.listen(port, () => {
