@@ -285,14 +285,25 @@ let employeesPost = (req, res) => {
 
 //////////////////////////
 
-let Receipts = (req, res) => {
-  var query = 'SELECT * FROM receipt';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+let  Receipts = (req, res) => {
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM receipt where cid = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query = 'SELECT * FROM receipt';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
+
 let receiptsPost = (req, res) => {
   const { Receipt_id, Pid, Cid, Date, Paid_unpaid } = req.body;
 
@@ -324,14 +335,24 @@ let receiptsDelete = (req, res) => {
 
 /////////////////////////////////////
 
-let CustBuys = (req, res) => {
-  var query =
-    'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+    // 'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+let Custbuys = (req, res) => {
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM custbuy where cid = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query = 'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
 
 let custbuysPost = (req, res) => {
@@ -797,7 +818,7 @@ app.get('/employees/:id?', Employees); //Done
 app.post('/employees', employeesPost); //Done
 app.delete('/employees/:id', employeesDelete); //Done
 
-app.get('/receipts', Receipts); //Done
+app.get('/receipts/:id?', Receipts); //Done
 app.post('/receipts', receiptsPost); //Done
 app.delete('/receipts/:id', receiptsDelete); //Done
 
@@ -813,7 +834,7 @@ app.get('/dependents', Dependents); //done
 app.post('/dependents', dependentsPost); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
-app.get('/custbuys', CustBuys); //done
+app.get('/custbuys/:id?', Custbuys); //done
 app.post('/custbuys', custbuysPost); //done
 app.delete('/custbuys/:id1/:id2', custbuysDelete); //done
 
