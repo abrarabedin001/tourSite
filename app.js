@@ -728,14 +728,14 @@ let CusHire = (req, res) => {
   // });
   let { id } = req.params;
   if (id) {
-    let query = `SELECT * FROM CusHire where Cid = '${id}'`;
+    let query = `SELECT cs.cid,c.name as c_name, cs.vlicense, v.vtype as v_type FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
       });
     });
   } else {
-    let query = 'SELECT * FROM CusHire';
+    let query = `SELECT cs.cid,c.name as c_name, cs.vlicense, v.vtype as v_type FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license `;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -774,17 +774,19 @@ let CusHireDelete = (req, res) => {
 };
 
 // ////////////////////////////////////
+
+// 
 let CusBooks = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT * FROM cusbook where cid = '${id}'`;
+    let query = `SELECT cs.cid,c.name as c_name, cs.aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
       });
     });
   } else {
-    let query = 'SELECT * FROM cusbook';
+    let query = 'SELECT cs.cid,c.name as c_name, cs.aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
