@@ -325,7 +325,8 @@ let receiptsDelete = (req, res) => {
 /////////////////////////////////////
 
 let CustBuys = (req, res) => {
-  var query = 'SELECT * FROM custbuy';
+  var query =
+    'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
