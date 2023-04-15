@@ -285,7 +285,7 @@ let employeesPost = (req, res) => {
 
 //////////////////////////
 
-let  Receipts = (req, res) => {
+let Receipts = (req, res) => {
   let { id } = req.params;
   if (id) {
     let query = `SELECT * FROM receipt where cid = '${id}'`;
@@ -335,7 +335,7 @@ let receiptsDelete = (req, res) => {
 
 /////////////////////////////////////
 
-    // 'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+// 'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
 let Custbuys = (req, res) => {
   let { id } = req.params;
   if (id) {
@@ -346,7 +346,8 @@ let Custbuys = (req, res) => {
       });
     });
   } else {
-    let query = 'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+    let query =
+      'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -531,14 +532,15 @@ let Dependents = (req, res) => {
 
   let { id } = req.params;
   if (id) {
-    let query = `SELECT * FROM dependent where cid = '${id}'`;
+    let query = `SELECT d.cid, c.user_name as customer,d.dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
       });
     });
   } else {
-    let query = 'SELECT * FROM dependent';
+    let query =
+      'SELECT d.cid, c.user_name as customer,d.dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid';
     database.query(query, function (error, data) {
       res.json({
         data: data,
