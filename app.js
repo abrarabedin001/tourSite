@@ -23,12 +23,30 @@ app.use(cors(corsOptions));
 const database = require('./database');
 
 let Customers = (req, res) => {
-  let query = 'SELECT * FROM customer';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  console.log('jak kore');
+  let { id } = req.params;
+  // let query = 'SELECT * FROM customer';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+
+  if (id) {
+    let query = `SELECT * FROM customer where id = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query = 'SELECT * FROM customer';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
 let Authenticate = (req, res) => {
   const { Id, Password } = req.params;
@@ -647,8 +665,9 @@ let Acc_belongsToDelete = (req, res) => {
 
 // ////////////////////////////////////
 
-app.get('/customers', Customers); //done
+app.get('/customers/:id?', Customers); //done
 app.patch('/customers/:id', CustomersPatch); //done
+
 app.post('/customers', CustomersPost); //done
 app.delete('/customers/:id', CustomersDelete); //done
 
