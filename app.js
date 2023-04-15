@@ -25,12 +25,8 @@ const database = require('./database');
 let Customers = (req, res) => {
   console.log('jak kore');
   let { id } = req.params;
-  // let query = 'SELECT * FROM customer';
-  // database.query(query, function (error, data) {
-  //   res.json({
-  //     data: data,
-  //   });
-  // });
+ 
+
 
   if (id) {
     let query = `SELECT * FROM customer where id = '${id}'`;
@@ -204,13 +200,30 @@ let locationsDelete = (req, res) => {
 
 /////////////////////////////
 let Employees = (req, res) => {
-  var query = 'SELECT * FROM employee';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query = 'SELECT * FROM employee';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM employee where id = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query = 'SELECT * FROM employee';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
+
 let employeesDelete = (req, res) => {
   const { id } = req.params;
 
@@ -680,7 +693,7 @@ app.get('/locations', Locations); //DOne
 app.post('/locations', locationsPost); //Done
 app.delete('/locations/:id', locationsDelete); //DOne
 
-app.get('/employees', Employees); //Done
+app.get('/employees/:id?', Employees); //Done
 app.post('/employees', employeesPost); //Done
 app.delete('/employees/:id', employeesDelete); //Done
 
