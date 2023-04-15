@@ -674,6 +674,61 @@ let Acc_belongsToDelete = (req, res) => {
 };
 /////////////////////////////////
 
+
+let CusHire = (req, res) => {
+  // var query = 'SELECT * FROM employee';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM CusHire where Cid = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  } else {
+    let query = 'SELECT * FROM CusHire';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+};
+
+let CusHirePost = (req, res) => {
+  const { cid, Vlicense } = req.body;
+  console.log(req.body);
+  let query = `insert into CusHire (cid, Vlicense) values('${cid}','${Vlicense}')`;
+  console.log(query)
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
+let CusHireDelete = (req, res) => {
+  const { id } = req.params;
+
+  let query = `delete from  CusHire where Cid = "${id}"`;
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data deleted',
+      },
+    });
+  });
+};
+
 // ////////////////////////////////////
 
 app.get('/customers/:id?', Customers); //done
@@ -733,6 +788,12 @@ app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
 
 app.get('/authenticate/:Id/:Password', Authenticate); //Done
 app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
+
+
+app.get('/CusHire/:id?', CusHire); //done
+app.post('/CusHire', CusHirePost); //done
+app.delete('/CusHire/:id', CusHireDelete); //done
+
 
 const port = 3001;
 app.listen(port, () => {
