@@ -25,12 +25,8 @@ const database = require('./database');
 let Customers = (req, res) => {
   console.log('jak kore');
   let { id } = req.params;
-  // let query = 'SELECT * FROM customer';
-  // database.query(query, function (error, data) {
-  //   res.json({
-  //     data: data,
-  //   });
-  // });
+ 
+  
 
   if (id) {
     let query = `SELECT * FROM customer where id = '${id}'`;
