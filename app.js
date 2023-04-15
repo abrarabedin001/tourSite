@@ -682,7 +682,7 @@ let CusHire = (req, res) => {
   // });
   let { id } = req.params;
   if (id) {
-    let query = `SELECT * FROM CusHire where id = '${id}'`;
+    let query = `SELECT * FROM CusHire where Cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -698,10 +698,25 @@ let CusHire = (req, res) => {
   }
 };
 
+let CusHirePost = (req, res) => {
+  const { cid, Vlicense } = req.body;
+  console.log(req.body);
+  let query = `insert into CusHire (cid, Vlicense) values('${cid}','${Vlicense}')`;
+  console.log(query)
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
 let CusHireDelete = (req, res) => {
   const { id } = req.params;
 
-  let query = `delete from  CusHire where id = "${id}"`;
+  let query = `delete from  CusHire where Cid = "${id}"`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -773,8 +788,13 @@ app.get('/authenticate/:Id/:Password', Authenticate); //Done
 app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
 
 app.get('/CusHire/:id?', CusHire); //done
-app.post('/CusHire', CusHire); //done
-app.delete('/CusHire/:id', CusHire); //done
+app.post('/CusHire', CusHirePost); //done
+app.delete('/CusHire/:id', CusHireDelete); //done
+
+// app.get('/customers/:id?', Customers); //done
+// app.patch('/customers/:id', CustomersPatch); //done
+// app.post('/customers', CustomersPost); //done
+// app.delete('/customers/:id', CustomersDelete); //done
 
 const port = 3001;
 app.listen(port, () => {
