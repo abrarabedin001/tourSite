@@ -23,15 +23,7 @@ app.use(cors(corsOptions));
 const database = require('./database');
 
 let Customers = (req, res) => {
-  console.log('jak kore');
   let { id } = req.params;
-  // let query = 'SELECT * FROM customer';
-  // database.query(query, function (error, data) {
-  //   res.json({
-  //     data: data,
-  //   });
-  // });
-
   if (id) {
     let query = `SELECT * FROM customer where id = '${id}'`;
     database.query(query, function (error, data) {
@@ -52,7 +44,6 @@ let Authenticate = (req, res) => {
   const { Id, Password } = req.params;
   console.log(Id, Password);
   let query = `SELECT * FROM employee where id='${Id}' and password='${Password}'`;
-  // let query = "SELECT * FROM customer";
   console.log(query);
   database.query(query, function (error, data) {
     res.json({
@@ -662,12 +653,12 @@ let Acc_belongsToDelete = (req, res) => {
     });
   });
 };
+/////////////////////////////////
 
 // ////////////////////////////////////
 
 app.get('/customers/:id?', Customers); //done
 app.patch('/customers/:id', CustomersPatch); //done
-
 app.post('/customers', CustomersPost); //done
 app.delete('/customers/:id', CustomersDelete); //done
 
@@ -691,11 +682,9 @@ app.delete('/receipts/:id', receiptsDelete); //Done
 app.get('/eworksin', EworksIn); //done
 app.post('/eworksin', EworksinPost); //done
 app.patch('/eworksin/:id1/:id2', EworksinPatch); //done
-
 app.delete('/eworksin/:id1/:id2', EworksinDelete); //done
 
-app.get('/vehicles', Vehicles); //done
-app.post('/vehicles', VehiclesPost); //done
+app.route('/vehicles').get(Vehicles).post(VehiclesPost); //done
 app.delete('/vehicles/:id', VehiclesDelete); //done
 
 app.get('/dependents', Dependents); //done
@@ -725,6 +714,8 @@ app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
 
 app.get('/authenticate/:Id/:Password', Authenticate); //Done
 app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
+
+app.ge;
 
 const port = 3001;
 app.listen(port, () => {
