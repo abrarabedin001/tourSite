@@ -647,12 +647,24 @@ let VehiclesDelete = (req, res) => {
 ///////////////////
 
 let DependentsAll = (req, res) => {
-  var query = 'SELECT * FROM dependent';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  console.log('DependentsAll backend Hit');
+
+  let { id1, id2 } = req.params;
+  if (id1) {
+    var query = `SELECT * FROM dependent where Cid='${id1}' and Dname='${id2}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    var query = 'SELECT * FROM dependent';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
 
 let Dependents = (req, res) => {
@@ -685,17 +697,29 @@ let Dependents = (req, res) => {
 let dependentsPost = (req, res) => {
   const { Cid, Dname, Age, Number } = req.body;
 
-  let query = `insert into dependent(Cid, Dname, Age, Number)
-  values('${Cid}', '${Dname}', '${Age}', '${Number}')`;
+  console.log('DependentsAll backend Hit');
 
-  database.query(query, function (err, data) {
-    if (err) throw err;
-    res.json({
-      data: {
-        message: 'data inserted',
-      },
+  let { id1, id2 } = req.params;
+  if (id1) {
+    var query = `SELECT * FROM dependent where Cid='${id1}' and Dname='${id2}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query = `insert into dependent(Cid, Dname, Age, Number)
+    values('${Cid}', '${Dname}', '${Age}', '${Number}')`;
+
+    database.query(query, function (err, data) {
+      if (err) throw err;
+      res.json({
+        data: {
+          message: 'data inserted',
+        },
+      });
+    });
+  }
 };
 
 let dependentsDelete = (req, res) => {
@@ -1041,9 +1065,9 @@ app.route('/vehiclesAll').get(VehiclesAll);
 app.route('/vehicles').get(Vehicles).post(VehiclesPost); //done
 app.delete('/vehicles/:id', VehiclesDelete); //done
 
-app.get('/dependentsAll', DependentsAll); //done
+app.get('/dependentsAll/:id1?/:id2?', DependentsAll); //done
 app.get('/dependents/:id?', Dependents); //done
-app.post('/dependents', dependentsPost); //done
+app.post('/dependents/:id1?/:id2?', dependentsPost); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
 app.get('/custbuysAll', CustbuysAll); //done
