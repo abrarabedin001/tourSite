@@ -652,6 +652,7 @@ let DependentsAll = (req, res) => {
   let { id1, id2 } = req.params;
   if (id1) {
     var query = `SELECT * FROM dependent where Cid='${id1}' and Dname='${id2}'`;
+    console.log(query)
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -720,6 +721,27 @@ let dependentsPost = (req, res) => {
       });
     });
   }
+};
+// dependentsPatch
+
+let dependentsPatch = (req, res) => {
+ 
+  const { Cid, Dname, Age, Number } = req.body;
+
+  console.log('DependentsPatch backend Hit');
+
+  let { id1, id2 } = req.params;
+ 
+    var query = `update dependent
+      set Cid='${Cid}', Dname='${Dname}', Age='${Age}',Number='${Number}'
+    where Cid='${id1}' and Dname='${id2}'`;
+    console.log(query)
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  
 };
 
 let dependentsDelete = (req, res) => {
@@ -1068,6 +1090,7 @@ app.delete('/vehicles/:id', VehiclesDelete); //done
 app.get('/dependentsAll/:id1?/:id2?', DependentsAll); //done
 app.get('/dependents/:id?', Dependents); //done
 app.post('/dependents/:id1?/:id2?', dependentsPost); //done
+app.patch('/dependents/:id1?/:id2?', dependentsPatch); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
 app.get('/custbuysAll', CustbuysAll); //done
