@@ -136,13 +136,25 @@ let CustomersPatch = (req, res) => {
 //////////////////////////////////
 
 let PackagesAll = (req, res) => {
-  var query = 'SELECT * FROM package';
+
+let { id } = req.params;
+if (id) {
+  let query = `SELECT * FROM package where id = '${id}'`;
   database.query(query, function (error, data) {
     res.json({
       data: data,
     });
   });
+} else {
+  let query = 'SELECT * from package';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+}
 };
+
 
 let Packages = (req, res) => {
   var query = 'SELECT * FROM package';
@@ -156,10 +168,10 @@ let Packages = (req, res) => {
 let PackagesPatch = (req, res) => {
   console.log(req.body, req.params);
   const { id } = req.params;
-  const { Name, Availability } = req.body;
+  const { Name, Availability, Price} = req.body;
 
   let query = `UPDATE package
-  SET name= '${Name}', availability='${Availability}'
+  SET name= '${Name}', availability='${Availability}', price='${Price}'
   WHERE id = '${id}'`;
 
   database.query(query, function (err, data) {
@@ -809,15 +821,27 @@ let dependentsDelete = (req, res) => {
 ////////////////////////////
 
 let DrivesAll = (req, res) => {
-  var query1 = 'SELECT * FROM drive';
-  var query =
-    'SELECT d.emp_id, e.user_name ,d.vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
-    });
-  });
-};
+
+    let { id,id1 } = req.params;
+    if (id) {
+     
+      let query = `SELECT * FROM drive where Emp_id = '${id}' and Vlicense = '${id1}' `;
+
+      database.query(query, function (error, data) {
+        res.json({
+          data: data,
+        });
+      });
+    } else {
+      
+      let query = 'SELECT * from drive';
+      database.query(query, function (error, data) {
+        res.json({
+          data: data,
+        });
+      });
+    }
+    };
 
 let Drives = (req, res) => {
   var query1 = 'SELECT * FROM drive';
@@ -1109,7 +1133,7 @@ app.patch('/customers/:id', CustomersPatch); //done
 app.post('/customers', CustomersPost); //done
 app.delete('/customers/:id', CustomersDelete); //done
 
-app.get('/packagesAll', PackagesAll); //done
+app.get('/packagesAll/:id?', PackagesAll); //done
 app.get('/packages', Packages); //done
 app.patch('/packages/:id', PackagesPatch); //done
 app.post('/packages', packagesPost); //done
@@ -1152,7 +1176,7 @@ app.get('/package_has', PackageHas); //done
 app.post('/package_has', package_hasPost); //done
 app.delete('/package_has/:id1/:id2', package_hasDelete); //done
 
-app.get('/drivesAll', DrivesAll); //Done
+app.get('/drivesAll/:id?/:id1?', DrivesAll); //Done
 app.get('/drives', Drives); //Done
 app.post('/drives', DrivePost); //Done
 app.delete('/drives/:id1/:id2', DriveDelete); //Done
