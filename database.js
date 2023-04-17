@@ -6,7 +6,7 @@ var connection = mysql.createConnection({
 	database : 'test71',
 	user : 'root',
 	password : '',
-  timezone: 'Z'
+	timezone: 'z'
 });
 
 connection.connect(function(error){
