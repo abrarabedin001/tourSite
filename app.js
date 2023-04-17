@@ -474,6 +474,29 @@ let CustbuysAll = (req, res) => {
     });
   }
 };
+// CustbuysPatch
+let CustbuysPatch = (req, res) => {
+  let { id,id1,id2 } = req.params;
+  const { Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
+// update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
+  
+  let query = `update custbuy 
+  set Cid='${Cid}', Pid='${Pid}',Start_date='${Start_date}',End_date= '${End_date}',Paid_unpaid='${Paid_unpaid}'
+  where Cid = '${id}' and Pid='${id1}' and Start_date='${id2}'`;
+
+  console.log(query)
+
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
+
 
 let Custbuys = (req, res) => {
   let { id } = req.params;
@@ -496,10 +519,10 @@ let Custbuys = (req, res) => {
 };
 
 let custbuysPost = (req, res) => {
-  const { Cid, Pid, Start_date, End_date } = req.body;
+  const {Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
 
-  let query = `insert into custbuy (Cid, Pid, Start_date, End_date)
-  values('${Cid}', '${Pid}',' ${Start_date}', '${End_date}')`;
+  let query = `insert into custbuy (Cid, Pid, Start_date, End_date,Paid_unpaid)
+  values('${Cid}', '${Pid}',' ${Start_date}', '${End_date}','${Paid_unpaid}')`;
 
   database.query(query, function (err, data) {
     if (err) throw err;
@@ -512,9 +535,10 @@ let custbuysPost = (req, res) => {
 };
 
 let custbuysDelete = (req, res) => {
-  const { id1, id2 } = req.params;
-
-  let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" `;
+  const { id1, id2,id3 } = req.params;
+// delete from   custbuy where cid = "04"  and Pid = "04" and Start_Date="2022-04-08T00:00:00.000Z";
+  let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" and Start_Date="${id3}" `;
+  console.log(query)
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -1208,9 +1232,10 @@ app.patch('/dependents/:id1?/:id2?', dependentsPatch); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
 app.get('/custbuysAll/:id?/:id1?/:id2?', CustbuysAll); //done
+app.patch('/custbuys/:id?/:id1?/:id2?', CustbuysPatch); //done
 app.get('/custbuys/:id?', Custbuys); //done
 app.post('/custbuys', custbuysPost); //done
-app.delete('/custbuys/:id1/:id2', custbuysDelete); //done
+app.delete('/custbuys/:id1/:id2/:id3', custbuysDelete); //done
 
 app.get('/package_hasAll', PackageHasAll); //done
 app.get('/package_has', PackageHas); //done
