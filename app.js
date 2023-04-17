@@ -447,18 +447,16 @@ let receiptsDelete = (req, res) => {
 /////////////////////////////////////
 
 let CustbuysAll = (req, res) => {
-  let query = `SELECT * FROM custbuy`;
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
-    });
-  });
-};
-
-let Custbuys = (req, res) => {
-  let { id } = req.params;
+  // let query = `SELECT * FROM custbuy`;
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+  let { id,id1,id2 } = req.params;
   if (id) {
-    let query = `SELECT c.Cid, cus.name, c.Pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
+    let query = `SELECT * FROM custbuy where Cid = '${id}' and Pid='${id1} and Start_date='${id2}'`;
+    console.log(query)
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -466,7 +464,27 @@ let Custbuys = (req, res) => {
     });
   } else {
     let query =
-      'SELECT c.Cid, cus.name, c.Pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+      `SELECT * FROM custbuy`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+};
+
+let Custbuys = (req, res) => {
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT c.Cid, cus.name, c.Pid, p.name as Package, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  } else {
+    let query =
+      'SELECT c.Cid, cus.name, c.Pid, p.name as Package, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -670,7 +688,7 @@ let VehiclesAll = (req, res) => {
 };
 
 let Vehicles = (req, res) => {
-  var query = 'SELECT * FROM vehicle';
+  var query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -1167,7 +1185,7 @@ app.post('/dependents/:id1?/:id2?', dependentsPost); //done
 app.patch('/dependents/:id1?/:id2?', dependentsPatch); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
-app.get('/custbuysAll', CustbuysAll); //done
+app.get('/custbuysAll/:id?/:id1?/:id2?', CustbuysAll); //done
 app.get('/custbuys/:id?', Custbuys); //done
 app.post('/custbuys', custbuysPost); //done
 app.delete('/custbuys/:id1/:id2', custbuysDelete); //done
