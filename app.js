@@ -858,6 +858,7 @@ let DrivePost = (req, res) => {
   const { Emp_id, Vlicense, Date } = req.body;
   console.log(req.body);
   let query = `insert into drive (emp_id,Vlicense,Date) values('${Emp_id}','${Vlicense}','${Date}')`;
+  console.log(query)
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -867,10 +868,29 @@ let DrivePost = (req, res) => {
     });
   });
 };
-let DriveDelete = (req, res) => {
-  const { id1, id2 } = req.params;
 
-  let query = `delete from   drive where emp_id = "${id1}"  and Vlicense = "${id2}" `;
+let DrivesPatch = (req, res) => {
+ 
+  const { Emp_id,Vlicense,Date } = req.body;
+  console.log(req.body)
+  let { id1, id2, id3} = req.params;
+ 
+    var query = `update drive
+      set Emp_id='${Emp_id}', Vlicense='${Vlicense}', date='${Date}' where Emp_id='${id1}' and Vlicense='${id2}' and date='${id3}'`;
+    
+    console.log(query)
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  
+};
+let DriveDelete = (req, res) => {
+  const { id1, id2, id3 } = req.params;
+  
+  let query = `delete from   drive where emp_id = "${id1}"  and Vlicense = "${id2}" and date='${id3}' `;
+  console.log(query)
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -1179,8 +1199,9 @@ app.delete('/package_has/:id1/:id2', package_hasDelete); //done
 
 app.get('/drivesAll/:id?/:id1?', DrivesAll); //Done
 app.get('/drives', Drives); //Done
+app.patch('/drives/:id1/:id2/:id3',DrivesPatch)
 app.post('/drives', DrivePost); //Done
-app.delete('/drives/:id1/:id2', DriveDelete); //Done
+app.delete('/drives/:id1/:id2/:id3', DriveDelete); //Done
 
 app.get('/accommodationsAll', AccoAll); //Done
 app.get('/accommodations', Acco); //Done
