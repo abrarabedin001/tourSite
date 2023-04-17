@@ -235,12 +235,29 @@ let locationsDelete = (req, res) => {
 /////////////////////////////
 
 let EmployeesAll = (req, res) => {
-  var query = 'SELECT * FROM employee';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query = 'SELECT * FROM employee';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM employee where id = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query = 'SELECT * FROM employee';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
 };
 
 let Employees = (req, res) => {
@@ -290,6 +307,37 @@ let locationsPost = (req, res) => {
   let query = `insert into location (Id, Name, Description, Types)
   values('${Id}', '${Name}', '${Description}', '${Types}')`;
 
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+// employeesPatch
+let employeesPatch = (req, res) => {
+  // console.log(req.body, 'sdfsdf');
+
+  const {
+    Id,
+    User_name,
+    Password,
+    Phone,
+    Hour_work,
+    Joining_date,
+    Leaving_date,
+    Salary_per_hour,
+    Etype,
+  } = req.body;
+  let p1 = Number(Phone);
+  let p2 = Number(Hour_work);
+  let p3 = Number(Salary_per_hour);
+  console.log(p1, p2, p3);
+
+  let query = `update employee set Id ='${Id}',User_name= '${User_name}', Password='${Password}', Phone='${p1}', Hour_work='${p2}', Joining_date='${Joining_date}', Leaving_date='${Leaving_date}',Salary_per_hour='${p3}',Etype='${Etype}' where Id = '${Id}'`;
+  console.log(query);
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -1072,9 +1120,10 @@ app.get('/locations', Locations); //DOne
 app.post('/locations', locationsPost); //Done
 app.delete('/locations/:id', locationsDelete); //DOne
 
-app.get('/employeesAll', EmployeesAll); //Done
+app.get('/employeesAll/:id?', EmployeesAll); //Done
 app.get('/employees/:id?', Employees); //Done
 app.post('/employees', employeesPost); //Done
+app.patch('/employees/:id', employeesPatch); //Done
 app.delete('/employees/:id', employeesDelete); //Done
 
 app.get('/eworksinAll/:id1?/:id2?', EworksInAll); //done
