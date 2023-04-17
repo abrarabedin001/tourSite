@@ -118,7 +118,6 @@ let CustomersPatch = (req, res) => {
   const { id2, Name, Phone, Email, Address, User_name, Password } = req.body;
   console.log(req.body);
   // let query = `insert into customer (id,name,phone,email,address,user_name,password) values('${Id}','${Name}',"${Phone}","${Email}",'${Address}','${User_name}','${Password}')`;
-
   let query = `UPDATE customer
   SET password= '${Password}', phone='${Phone}' , name='${Name}' , user_name='${User_name}', address='${Address}', email='${Email}'
   WHERE id = '${id}'`;
@@ -168,7 +167,9 @@ let Packages = (req, res) => {
 let PackagesPatch = (req, res) => {
   console.log(req.body, req.params);
   const { id } = req.params;
+
   const { Name, Availability, Price} = req.body;
+
 
   let query = `UPDATE package
   SET name= '${Name}', availability='${Availability}', price='${Price}'
