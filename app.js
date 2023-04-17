@@ -22,6 +22,25 @@ app.use(cors(corsOptions));
 
 const database = require('./database');
 
+let CustomersAll = (req, res) => {
+  let { id } = req.params;
+  if (id) {
+    let query = `SELECT * FROM customer where id = '${id}'`;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  } else {
+    let query = 'SELECT * FROM customer';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+};
+
 let Customers = (req, res) => {
   let { id } = req.params;
   if (id) {
@@ -96,12 +115,14 @@ let CustomersDelete = (req, res) => {
 
 let CustomersPatch = (req, res) => {
   const { id } = req.params;
-  const { password, phone } = req.body;
+  const { id2, Name, Phone, Email, Address, User_name, Password } = req.body;
+  console.log(req.body);
+  // let query = `insert into customer (id,name,phone,email,address,user_name,password) values('${Id}','${Name}',"${Phone}","${Email}",'${Address}','${User_name}','${Password}')`;
 
   let query = `UPDATE customer
-  SET password= '${password}', phone='${phone}'
+  SET password= '${Password}', phone='${Phone}' , name='${Name}' , user_name='${User_name}', address='${Address}', email='${Email}'
   WHERE id = '${id}'`;
-
+  console.log(query);
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -113,6 +134,15 @@ let CustomersPatch = (req, res) => {
 };
 
 //////////////////////////////////
+
+let PackagesAll = (req, res) => {
+  var query = 'SELECT * FROM package';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
 
 let Packages = (req, res) => {
   var query = 'SELECT * FROM package';
@@ -171,6 +201,15 @@ let packagesDelete = (req, res) => {
 };
 ////////////////////////////////////
 
+let LocationsAll = (req, res) => {
+  var query = 'SELECT * FROM location';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let Locations = (req, res) => {
   var query = 'SELECT * FROM location';
   database.query(query, function (error, data) {
@@ -194,6 +233,16 @@ let locationsDelete = (req, res) => {
 };
 
 /////////////////////////////
+
+let EmployeesAll = (req, res) => {
+  var query = 'SELECT * FROM employee';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let Employees = (req, res) => {
   // var query = 'SELECT * FROM employee';
   // database.query(query, function (error, data) {
@@ -288,7 +337,7 @@ let employeesPost = (req, res) => {
 let Receipts = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `select  r.Receipt_id,r.cid,c.name as c_name,r.pid,p.name as p_name,r.paid_unpaid from receipt r, customer c, package p where r.cid=c.id and r.pid=p.id and cid = '${id}'`;
+    let query = `select  r.Receipt_id,r.Cid,c.name as c_name,r.pid,p.name as p_name,r.paid_unpaid from receipt r, customer c, package p where r.cid=c.id and r.pid=p.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -336,10 +385,19 @@ let receiptsDelete = (req, res) => {
 
 /////////////////////////////////////
 
+let CustbuysAll = (req, res) => {
+  let query = `SELECT * FROM custbuy`;
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let Custbuys = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
+    let query = `SELECT c.Cid, cus.name, c.Pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -347,7 +405,7 @@ let Custbuys = (req, res) => {
     });
   } else {
     let query =
-      'SELECT c.cid, cus.name, c.pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+      'SELECT c.Cid, cus.name, c.Pid, p.name as package, c.start_date, c.end_date,p.price, c.paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -386,9 +444,19 @@ let custbuysDelete = (req, res) => {
   });
 };
 /////////////////////////
+
+let PackageHasAll = (req, res) => {
+  var query = 'SELECT * FROM package_has';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let PackageHas = (req, res) => {
   var query =
-    'SELECT p.lid, l.name as location_name, p.pid , pa.name as package_name FROM package_has p,location l, package pa where pa.id = p.pid and l.id = p.lid;';
+    'SELECT p.Lid, l.name as location_name, p.Pid , pa.name as package_name FROM package_has p,location l, package pa where pa.id = p.pid and l.id = p.lid;';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -426,6 +494,35 @@ let package_hasDelete = (req, res) => {
 };
 
 /////////////////
+let EworksInAll = (req, res) => {
+  //   console.log('kaj kore');
+
+  //   let query = `Select * from eworksin`;
+  //   database.query(query, function (error, data) {
+  //     res.json({
+  //       data: data,
+  //     });
+  //   });
+  // };
+  let { id1, id2 } = req.params;
+  console.log('kaj kore');
+  if ((id1, id2)) {
+    let query = `Select * from eworksin where Lid='${id1}' and Emp_id ='${id2}'`;
+    console.log(query);
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  } else {
+    let query = 'Select * from eworksin';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+};
 let EworksIn = (req, res) => {
   // Select ew.lid, l.name as Lname,ew.emp_id, e.name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id
   // var query = "SELECT * FROM Eworksin";
@@ -439,7 +536,7 @@ let EworksIn = (req, res) => {
   let { id } = req.params;
   console.log('kaj kore');
   if (id) {
-    let query = `Select ew.lid, l.name as Lname,ew.emp_id, e.user_name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id and ew.emp_id = '${id}'`;
+    let query = `Select ew.Lid, l.name as Lname,ew.Emp_id, e.user_name as Ename, ew.Wage, ew.Date from employee e, location l,  eworksin ew where ew.lid=l.id and ew.emp_id=e.id and ew.emp_id = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -447,7 +544,7 @@ let EworksIn = (req, res) => {
     });
   } else {
     let query =
-      'Select ew.lid, l.name as Lname,ew.emp_id, e.user_name as Ename from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id';
+      'Select ew.Lid, l.name as Lname,ew.Emp_id, e.user_name as Ename, ew.Wage, ew.Date from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -460,7 +557,7 @@ let EworksinPatch = (req, res) => {
   const { Lid, Date, Wage } = req.body;
   let query = `update eworksin Set lid='${Lid}', date='${Date}',wage=${Wage}
   Where emp_id='${id2}' and lid='${id1}' `;
-
+  console.log(query);
   // let query = `delete from   Eworksin  where lid = "${id1}"  and  emp_id = "${id2}" `;
   database.query(query, function (err, data) {
     if (err) throw err;
@@ -489,7 +586,7 @@ let EworksinPost = (req, res) => {
 
   let query = `insert into Eworksin(Lid, Emp_id, Date, Wage)
   values('${Lid}', '${Emp_id}', '${Date}', '${Wage}')`;
-
+  console.log(query);
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -501,6 +598,16 @@ let EworksinPost = (req, res) => {
 };
 
 //////////////////
+
+let VehiclesAll = (req, res) => {
+  var query = 'SELECT * FROM vehicle';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let Vehicles = (req, res) => {
   var query = 'SELECT * FROM vehicle';
   database.query(query, function (error, data) {
@@ -539,6 +646,15 @@ let VehiclesDelete = (req, res) => {
 
 ///////////////////
 
+let DependentsAll = (req, res) => {
+  var query = 'SELECT * FROM dependent';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let Dependents = (req, res) => {
   // var query = 'SELECT * FROM dependent';
   // database.query(query, function (error, data) {
@@ -550,7 +666,7 @@ let Dependents = (req, res) => {
 
   let { id } = req.params;
   if (id) {
-    let query = `SELECT d.cid, c.user_name as customer,d.dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid = '${id}'`;
+    let query = `SELECT d.Cid, c.User_name ,d.Dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -558,7 +674,7 @@ let Dependents = (req, res) => {
     });
   } else {
     let query =
-      'SELECT d.cid, c.user_name as customer,d.dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid';
+      'SELECT d.Cid, c.User_name ,d.Dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -586,6 +702,7 @@ let dependentsDelete = (req, res) => {
   const { id1, id2 } = req.params;
 
   let query = `delete from   dependent where cid = "${id1}"  and Dname = "${id2}" `;
+  console.log(query);
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -597,10 +714,21 @@ let dependentsDelete = (req, res) => {
 };
 ////////////////////////////
 
-let Drives = (req, res) => {
+let DrivesAll = (req, res) => {
   var query1 = 'SELECT * FROM drive';
   var query =
     'SELECT d.emp_id, e.user_name ,d.vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
+let Drives = (req, res) => {
+  var query1 = 'SELECT * FROM drive';
+  var query =
+    'SELECT d.Emp_id, e.user_name ,d.Vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -635,6 +763,16 @@ let DriveDelete = (req, res) => {
 };
 
 ////////////////////////////////////////
+
+let AccoAll = (req, res) => {
+  var query = 'SELECT * FROM accommodation';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let Acco = (req, res) => {
   var query = 'SELECT * FROM accommodation';
   database.query(query, function (error, data) {
@@ -693,10 +831,22 @@ let accommodationsPatch = (req, res) => {
 
 ////////////////////////////////////////
 
+let AccBelongToAll = (req, res) => {
+  // select ab.aid,ac.name,ab.pid,p.name from acc_belongsto ab ,accommodation ac ,package p
+  // where ab.aid = ac.id and ab.pid = p.id
+  let query = `select * from acc_belongsto`;
+  // var query = "SELECT * FROM acc_belongsto";
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let AccBelongTo = (req, res) => {
   // select ab.aid,ac.name,ab.pid,p.name from acc_belongsto ab ,accommodation ac ,package p
   // where ab.aid = ac.id and ab.pid = p.id
-  let query = `select ab.aid,ac.name as ACName,ab.pid,p.name as PName from acc_belongsto ab ,accommodation ac ,package p where ab.aid = ac.id and ab.pid = p.id`;
+  let query = `select ab.Aid,ac.name as ACName,ab.Pid,p.name as PName from acc_belongsto ab ,accommodation ac ,package p where ab.aid = ac.id and ab.pid = p.id`;
   // var query = "SELECT * FROM acc_belongsto";
   database.query(query, function (error, data) {
     res.json({
@@ -735,6 +885,15 @@ let Acc_belongsToDelete = (req, res) => {
 };
 /////////////////////////////////
 
+let CusHireAll = (req, res) => {
+  var query = 'SELECT * FROM cushire';
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 let CusHire = (req, res) => {
   // var query = 'SELECT * FROM employee';
   // database.query(query, function (error, data) {
@@ -744,14 +903,14 @@ let CusHire = (req, res) => {
   // });
   let { id } = req.params;
   if (id) {
-    let query = `SELECT cs.cid,c.name as c_name, cs.vlicense, v.vtype as v_type FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license and cid = '${id}'`;
+    let query = `SELECT cs.Cid,c.name as c_name, cs.Vlicense, v.vtype as V_type,cs.date FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
       });
     });
   } else {
-    let query = `SELECT cs.cid,c.name as c_name, cs.vlicense, v.vtype as v_type FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license `;
+    let query = `SELECT cs.Cid,c.name as c_name, cs.Vlicense, v.vtype as V_type ,cs.date FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -776,9 +935,9 @@ let CusHirePost = (req, res) => {
 };
 
 let CusHireDelete = (req, res) => {
-  const { id } = req.params;
+  const { id, id1 } = req.params;
 
-  let query = `delete from  CusHire where Cid = "${id}"`;
+  let query = `delete from  CusHire where Cid = "${id}" and vlicense='${id1}'`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -791,11 +950,20 @@ let CusHireDelete = (req, res) => {
 
 // ////////////////////////////////////
 
+let CusBooksAll = (req, res) => {
+  let query = `SELECT * FROM cusbook`;
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
 //
 let CusBooks = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT cs.cid,c.name as c_name, cs.aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
+    let query = `SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -803,7 +971,7 @@ let CusBooks = (req, res) => {
     });
   } else {
     let query =
-      'SELECT cs.cid,c.name as c_name, cs.aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
+      'SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -841,58 +1009,65 @@ let CusBooksDelete = (req, res) => {
 };
 
 ////////////////////////
-
+app.get('/customersAll/:id?', CustomersAll); //done
 app.get('/customers/:id?', Customers); //done
 app.patch('/customers/:id', CustomersPatch); //done
 app.post('/customers', CustomersPost); //done
 app.delete('/customers/:id', CustomersDelete); //done
 
+app.get('/packagesAll', PackagesAll); //done
 app.get('/packages', Packages); //done
 app.patch('/packages/:id', PackagesPatch); //done
 app.post('/packages', packagesPost); //done
 app.delete('/packages/:id', packagesDelete); //done
 
+app.get('/locationsAll', LocationsAll); //DOne
 app.get('/locations', Locations); //DOne
 app.post('/locations', locationsPost); //Done
 app.delete('/locations/:id', locationsDelete); //DOne
 
+app.get('/employeesAll', EmployeesAll); //Done
 app.get('/employees/:id?', Employees); //Done
 app.post('/employees', employeesPost); //Done
 app.delete('/employees/:id', employeesDelete); //Done
 
-app.get('/receipts/:id?', Receipts); //Done
-app.post('/receipts', receiptsPost); //Done
-app.delete('/receipts/:id', receiptsDelete); //Done
-
+app.get('/eworksinAll/:id1?/:id2?', EworksInAll); //done
 app.get('/eworksin/:id?', EworksIn); //done
 app.post('/eworksin', EworksinPost); //done
 app.patch('/eworksin/:id1/:id2', EworksinPatch); //done
 app.delete('/eworksin/:id1/:id2', EworksinDelete); //done
 
+app.route('/vehiclesAll').get(VehiclesAll);
 app.route('/vehicles').get(Vehicles).post(VehiclesPost); //done
 app.delete('/vehicles/:id', VehiclesDelete); //done
 
+app.get('/dependentsAll', DependentsAll); //done
 app.get('/dependents/:id?', Dependents); //done
 app.post('/dependents', dependentsPost); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
+app.get('/custbuysAll', CustbuysAll); //done
 app.get('/custbuys/:id?', Custbuys); //done
 app.post('/custbuys', custbuysPost); //done
 app.delete('/custbuys/:id1/:id2', custbuysDelete); //done
 
+app.get('/package_hasAll', PackageHasAll); //done
 app.get('/package_has', PackageHas); //done
 app.post('/package_has', package_hasPost); //done
 app.delete('/package_has/:id1/:id2', package_hasDelete); //done
 
+app.get('/drivesAll', DrivesAll); //Done
 app.get('/drives', Drives); //Done
 app.post('/drives', DrivePost); //Done
 app.delete('/drives/:id1/:id2', DriveDelete); //Done
 
+app.get('/accommodationsAll', AccoAll); //Done
 app.get('/accommodations', Acco); //Done
 app.patch('/accommodations/:id', accommodationsPatch); //Done
 app.post('/accommodations', accommodationsPost); //Done
 app.delete('/accommodations/:id', accommodationsDelete); //Done
 
+app.get('/accBelongToAll', AccBelongToAll); //Done
 app.get('/accBelongTo', AccBelongTo); //Done
 app.post('/accBelongTo', Acc_belongsToPost); //Done
 app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
@@ -900,10 +1075,12 @@ app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
 app.get('/authenticate/:Id/:Password', Authenticate); //Done
 app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
 
+app.get('/CusHireAll', CusHireAll); //done
 app.get('/CusHire/:id?', CusHire); //done
 app.post('/CusHire', CusHirePost); //done
-app.delete('/CusHire/:id', CusHireDelete); //done
+app.delete('/CusHire/:id/:id1', CusHireDelete); //done
 
+app.get('/cusbookAll', CusBooksAll); //Done
 app.get('/cusbook/:id?', CusBooks); //Done
 app.post('/cusbook', CusBooksPost); //Done
 app.delete('/cusbook/:id1/:id2', CusBooksDelete); //Done
