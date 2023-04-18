@@ -535,6 +535,7 @@ let custbuysPost = (req, res) => {
 };
 
 let custbuysDelete = (req, res) => {
+  console.log("custBuyDel")
   const { id1, id2,id3 } = req.params;
 // delete from   custbuy where cid = "04"  and Pid = "04" and Start_Date="2022-04-08T00:00:00.000Z";
   let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" and Start_Date="${id3}" `;
@@ -1210,7 +1211,7 @@ let CusBooksAll = (req, res) => {
 let CusBooks = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
+    let query = `SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -1218,7 +1219,7 @@ let CusBooks = (req, res) => {
     });
   } else {
     let query =
-      'SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
+      'SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -1243,8 +1244,8 @@ let CusBooksPost = (req, res) => {
 };
 
 let CusBooksDelete = (req, res) => {
-  const { id1, id2 } = req.params;
-  let query = `delete from   CusBook where Cid = "${id1}"  and Aid = "${id2}" `;
+  const { id1, id2,id3 } = req.params;
+  let query = `delete from   CusBook where Cid = "${id1}"  and Aid = "${id2}" and Date="${id3}"`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -1338,7 +1339,7 @@ app.delete('/CusHire/:id/:id1', CusHireDelete); //done
 app.get('/cusbookAll', CusBooksAll); //Done
 app.get('/cusbook/:id?', CusBooks); //Done
 app.post('/cusbook', CusBooksPost); //Done
-app.delete('/cusbook/:id1/:id2', CusBooksDelete); //Done
+app.delete('/cusbook/:id1/:id2/:id3', CusBooksDelete); //Done
 
 const port = 3001;
 app.listen(port, () => {
