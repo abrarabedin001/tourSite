@@ -474,6 +474,29 @@ let CustbuysAll = (req, res) => {
     });
   }
 };
+// CustbuysPatch
+let CustbuysPatch = (req, res) => {
+  let { id,id1,id2 } = req.params;
+  const { Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
+// update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
+  
+  let query = `update custbuy 
+  set Cid='${Cid}', Pid='${Pid}',Start_date='${Start_date}',End_date= '${End_date}',Paid_unpaid='${Paid_unpaid}'
+  where Cid = '${id}' and Pid='${id1}' and Start_date='${id2}'`;
+
+  console.log(query)
+
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
+
 
 let Custbuys = (req, res) => {
   let { id } = req.params;
@@ -496,10 +519,10 @@ let Custbuys = (req, res) => {
 };
 
 let custbuysPost = (req, res) => {
-  const { Cid, Pid, Start_date, End_date } = req.body;
+  const {Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
 
-  let query = `insert into custbuy (Cid, Pid, Start_date, End_date)
-  values('${Cid}', '${Pid}',' ${Start_date}', '${End_date}')`;
+  let query = `insert into custbuy (Cid, Pid, Start_date, End_date,Paid_unpaid)
+  values('${Cid}', '${Pid}',' ${Start_date}', '${End_date}','${Paid_unpaid}')`;
 
   database.query(query, function (err, data) {
     if (err) throw err;
@@ -512,9 +535,11 @@ let custbuysPost = (req, res) => {
 };
 
 let custbuysDelete = (req, res) => {
-  const { id1, id2 } = req.params;
-
-  let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" `;
+  console.log("custBuyDel")
+  const { id1, id2,id3 } = req.params;
+// delete from   custbuy where cid = "04"  and Pid = "04" and Start_Date="2022-04-08T00:00:00.000Z";
+  let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" and Start_Date="${id3}" `;
+  console.log(query)
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -681,27 +706,70 @@ let EworksinPost = (req, res) => {
 //////////////////
 
 let VehiclesAll = (req, res) => {
-  var query = 'SELECT * FROM vehicle';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query = 'SELECT * FROM vehicle';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+
+  let { id } = req.params;
+  console.log('kaj kore');
+  if (id) {
+    let query = `SELECT * FROM vehicle where License='${id}' `;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query =
+      'SELECT * FROM vehicle';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+
 };
 
 let Vehicles = (req, res) => {
-  var query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+  const {id}=req.params
+  console.log("runnning vehicles")
+  if(id){
+
+    let query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id  ';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+
+  }else{
+    let query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+
+  
 };
 let VehiclesPost = (req, res) => {
+  console.log("vehicle post")
   console.log(req.body);
-  const { License, Pid, Price, Vtype, Date } = req.body;
+  const { License, Pid,  Vtype, Date } = req.body;
 
-  let query = `insert into vehicle (License,Pid,Price,Vtype,date) values('${License}','${Pid}','${Price}','${Vtype}','${Date}')`;
+  let query = `insert into vehicle (License,Pid,Vtype,date) values('${License}','${Pid}','${Vtype}','${Date}')`;
+  console.log()
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -711,6 +779,27 @@ let VehiclesPost = (req, res) => {
     });
   });
 };
+
+let VehiclesPatch = (req, res) => {
+  console.log(req.body);
+  const{id}=req.params
+  const { License, Pid, Vtype, Date } = req.body;
+
+  let query = `update vehicle 
+  set License='${License}',Pid='${Pid}',Vtype='${Vtype}',Date='${Date}'
+  where License='${id}'
+  `;
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
+
 let VehiclesDelete = (req, res) => {
   const { id } = req.params;
 
@@ -1122,7 +1211,7 @@ let CusBooksAll = (req, res) => {
 let CusBooks = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
+    let query = `SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -1130,7 +1219,7 @@ let CusBooks = (req, res) => {
     });
   } else {
     let query =
-      'SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
+      'SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -1155,8 +1244,8 @@ let CusBooksPost = (req, res) => {
 };
 
 let CusBooksDelete = (req, res) => {
-  const { id1, id2 } = req.params;
-  let query = `delete from   CusBook where Cid = "${id1}"  and Aid = "${id2}" `;
+  const { id1, id2,id3 } = req.params;
+  let query = `delete from   CusBook where Cid = "${id1}"  and Aid = "${id2}" and Date="${id3}"`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -1197,8 +1286,12 @@ app.post('/eworksin', EworksinPost); //done
 app.patch('/eworksin/:id1/:id2', EworksinPatch); //done
 app.delete('/eworksin/:id1/:id2', EworksinDelete); //done
 
-app.route('/vehiclesAll').get(VehiclesAll);
-app.route('/vehicles').get(Vehicles).post(VehiclesPost); //done
+app.get('/vehiclesAll/:id?',VehiclesAll);
+app.get('/vehicles',Vehicles)
+app.post('/vehicles',VehiclesPost); //done
+app.patch('/vehicles/:id',VehiclesPatch); //done
+
+// VehiclesPatch
 app.delete('/vehicles/:id', VehiclesDelete); //done
 
 app.get('/dependentsAll/:id1?/:id2?', DependentsAll); //done
@@ -1208,9 +1301,10 @@ app.patch('/dependents/:id1?/:id2?', dependentsPatch); //done
 app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
 app.get('/custbuysAll/:id?/:id1?/:id2?', CustbuysAll); //done
+app.patch('/custbuys/:id?/:id1?/:id2?', CustbuysPatch); //done
 app.get('/custbuys/:id?', Custbuys); //done
 app.post('/custbuys', custbuysPost); //done
-app.delete('/custbuys/:id1/:id2', custbuysDelete); //done
+app.delete('/custbuys/:id1/:id2/:id3', custbuysDelete); //done
 
 app.get('/package_hasAll', PackageHasAll); //done
 app.get('/package_has', PackageHas); //done
@@ -1245,7 +1339,7 @@ app.delete('/CusHire/:id/:id1', CusHireDelete); //done
 app.get('/cusbookAll', CusBooksAll); //Done
 app.get('/cusbook/:id?', CusBooks); //Done
 app.post('/cusbook', CusBooksPost); //Done
-app.delete('/cusbook/:id1/:id2', CusBooksDelete); //Done
+app.delete('/cusbook/:id1/:id2/:id3', CusBooksDelete); //Done
 
 const port = 3001;
 app.listen(port, () => {
