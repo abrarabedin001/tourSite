@@ -705,27 +705,70 @@ let EworksinPost = (req, res) => {
 //////////////////
 
 let VehiclesAll = (req, res) => {
-  var query = 'SELECT * FROM vehicle';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query = 'SELECT * FROM vehicle';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+
+  let { id } = req.params;
+  console.log('kaj kore');
+  if (id) {
+    let query = `SELECT * FROM vehicle where License='${id}' `;
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+  } else {
+    let query =
+      'SELECT * FROM vehicle';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+
 };
 
 let Vehicles = (req, res) => {
-  var query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
+  // var query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
+  // database.query(query, function (error, data) {
+  //   res.json({
+  //     data: data,
+  //   });
+  // });
+  const {id}=req.params
+  console.log("runnning vehicles")
+  if(id){
+
+    let query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id  ';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
     });
-  });
+
+  }else{
+    let query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
+    database.query(query, function (error, data) {
+      res.json({
+        data: data,
+      });
+    });
+  }
+
+  
 };
 let VehiclesPost = (req, res) => {
+  console.log("vehicle post")
   console.log(req.body);
-  const { License, Pid, Price, Vtype, Date } = req.body;
+  const { License, Pid,  Vtype, Date } = req.body;
 
-  let query = `insert into vehicle (License,Pid,Price,Vtype,date) values('${License}','${Pid}','${Price}','${Vtype}','${Date}')`;
+  let query = `insert into vehicle (License,Pid,Vtype,date) values('${License}','${Pid}','${Vtype}','${Date}')`;
+  console.log()
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -735,6 +778,27 @@ let VehiclesPost = (req, res) => {
     });
   });
 };
+
+let VehiclesPatch = (req, res) => {
+  console.log(req.body);
+  const{id}=req.params
+  const { License, Pid, Vtype, Date } = req.body;
+
+  let query = `update vehicle 
+  set License='${License}',Pid='${Pid}',Vtype='${Vtype}',Date='${Date}'
+  where License='${id}'
+  `;
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: 'data inserted',
+      },
+    });
+  });
+};
+
+
 let VehiclesDelete = (req, res) => {
   const { id } = req.params;
 
@@ -1221,8 +1285,12 @@ app.post('/eworksin', EworksinPost); //done
 app.patch('/eworksin/:id1/:id2', EworksinPatch); //done
 app.delete('/eworksin/:id1/:id2', EworksinDelete); //done
 
-app.route('/vehiclesAll').get(VehiclesAll);
-app.route('/vehicles').get(Vehicles).post(VehiclesPost); //done
+app.get('/vehiclesAll/:id?',VehiclesAll);
+app.get('/vehicles',Vehicles)
+app.post('/vehicles',VehiclesPost); //done
+app.patch('/vehicles/:id',VehiclesPatch); //done
+
+// VehiclesPatch
 app.delete('/vehicles/:id', VehiclesDelete); //done
 
 app.get('/dependentsAll/:id1?/:id2?', DependentsAll); //done
