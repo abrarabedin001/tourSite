@@ -496,6 +496,27 @@ let CustbuysPatch = (req, res) => {
   });
 };
 
+let CustbuysGet = (req, res) => {
+  let { id,id1,id2 } = req.params;
+  const { Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
+// update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
+  console.log("test1")
+  console.log(req.body)
+  let query = `SELECT * FROM custbuy where Cid='${id}' and Pid='${id1}' and Start_date='${id2}'` ;
+
+  console.log(query)
+
+  database.query(query, function (err, data) {
+    if (err) throw err;
+    res.json({
+      data: {
+        message: data,
+      },
+    });
+  });
+};
+// CustbuysGet
+
 
 
 let Custbuys = (req, res) => {
@@ -1302,6 +1323,7 @@ app.delete('/dependents/:id1/:id2', dependentsDelete); //done
 
 app.get('/custbuysAll/:id?/:id1?/:id2?', CustbuysAll); //done
 app.patch('/custbuys/:id?/:id1?/:id2?', CustbuysPatch); //done
+app.get('/custbuystest/:id?/:id1?/:id2?', CustbuysGet); //done
 app.get('/custbuys/:id?', Custbuys); //done
 app.post('/custbuys', custbuysPost); //done
 app.delete('/custbuys/:id1/:id2/:id3', custbuysDelete); //done
