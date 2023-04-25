@@ -393,7 +393,7 @@ let employeesPost = (req, res) => {
   });
 };
 
-//////////////////////////
+////////////////////////
 
 let Receipts = (req, res) => {
   let { id } = req.params;
@@ -499,9 +499,10 @@ let CustbuysPatch = (req, res) => {
 
 
 let Custbuys = (req, res) => {
-  let { id } = req.params;
+  let {id} = req.params;
   if (id) {
-    let query = `SELECT c.Cid, cus.name, c.Pid, p.name as Package, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and cid = '${id}'`;
+    let query = `SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and c.cid="${id}"`;
+    console.log(query)
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -509,7 +510,7 @@ let Custbuys = (req, res) => {
     });
   } else {
     let query =
-      'SELECT c.Cid, cus.name, c.Pid, p.name as Package, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+      'SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -642,7 +643,7 @@ let EworksIn = (req, res) => {
   let { id } = req.params;
   console.log('kaj kore');
   if (id) {
-    let query = `Select ew.Lid, l.name as Lname,ew.Emp_id, e.user_name as Ename, ew.Wage, ew.Date from employee e, location l,  eworksin ew where ew.lid=l.id and ew.emp_id=e.id and ew.emp_id = '${id}'`;
+    let query = `Select ew.Lid, l.name as location_name,ew.Emp_id, e.user_name as employee_name, ew.Wage, ew.Date from employee e, location l,  eworksin ew where ew.lid=l.id and ew.emp_id=e.id and ew.emp_id = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -650,7 +651,7 @@ let EworksIn = (req, res) => {
     });
   } else {
     let query =
-      'Select ew.Lid, l.name as Lname,ew.Emp_id, e.user_name as Ename, ew.Wage, ew.Date from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id';
+      'Select ew.Lid, l.name as location_name,ew.Emp_id, e.user_name as employee_name, ew.Wage, ew.Date from employee e, location l, eworksin ew where ew.lid=l.id and ew.emp_id=e.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -745,7 +746,7 @@ let Vehicles = (req, res) => {
   console.log("runnning vehicles")
   if(id){
 
-    let query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id  ';
+    let query = 'SELECT v.License, v.Pid, p.name as package_name,v.Vtype as vehicle_type,v.Date FROM vehicle v,package p where v.Pid=P.Id  ';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -753,7 +754,7 @@ let Vehicles = (req, res) => {
     });
 
   }else{
-    let query = 'SELECT v.License, v.Pid, p.name as Package,v.Vtype,v.Date FROM vehicle v,package p where v.Pid=P.Id';
+    let query = 'SELECT v.License, v.Pid, p.name as package_name,v.Vtype as vehicle_type,v.Date FROM vehicle v,package p where v.Pid=P.Id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -849,7 +850,7 @@ let Dependents = (req, res) => {
 
   let { id } = req.params;
   if (id) {
-    let query = `SELECT d.Cid, c.User_name ,d.Dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid = '${id}'`;
+    let query = `SELECT d.Cid, c.User_name as customer_userName ,d.Dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -857,7 +858,7 @@ let Dependents = (req, res) => {
     });
   } else {
     let query =
-      'SELECT d.Cid, c.User_name ,d.Dname,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid';
+      'SELECT d.Cid, c.User_name as customer_name ,d.Dname ,d.age,d.number FROM dependent d, customer c where c.id=d.cid and cid';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -956,7 +957,7 @@ let DrivesAll = (req, res) => {
 let Drives = (req, res) => {
   var query1 = 'SELECT * FROM drive';
   var query =
-    'SELECT d.Emp_id, e.user_name ,d.Vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
+    'SELECT d.Emp_id, e.user_name as employee_name ,d.Vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -1013,7 +1014,7 @@ let DriveDelete = (req, res) => {
 ////////////////////////////////////////
 
 let AccoAll = (req, res) => {
-  var query = 'SELECT * FROM accommodation';
+  var query = 'SELECT a.Id, a.Name, a.Lid, l.name as location_name FROM accommodation a, location l where a.lid=l.id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -1022,7 +1023,7 @@ let AccoAll = (req, res) => {
 };
 
 let Acco = (req, res) => {
-  var query = 'SELECT * FROM accommodation';
+  var query = 'SELECT a.Id, a.Name, a.Lid, l.name as location_name FROM accommodation a, location l where a.lid=l.id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -1094,7 +1095,7 @@ let AccBelongToAll = (req, res) => {
 let AccBelongTo = (req, res) => {
   // select ab.aid,ac.name,ab.pid,p.name from acc_belongsto ab ,accommodation ac ,package p
   // where ab.aid = ac.id and ab.pid = p.id
-  let query = `select ab.Aid,ac.name as ACName,ab.Pid,p.name as PName from acc_belongsto ab ,accommodation ac ,package p where ab.aid = ac.id and ab.pid = p.id`;
+  let query = `select ab.Aid,ac.name as accommodation_name,ab.Pid,p.name as package_name from acc_belongsto ab ,accommodation ac ,package p where ab.aid = ac.id and ab.pid = p.id`;
   // var query = "SELECT * FROM acc_belongsto";
   database.query(query, function (error, data) {
     res.json({
@@ -1151,14 +1152,14 @@ let CusHire = (req, res) => {
   // });
   let { id } = req.params;
   if (id) {
-    let query = `SELECT cs.Cid,c.name as c_name, cs.Vlicense, v.vtype as V_type,cs.date FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license and cid = '${id}'`;
+    let query = `SELECT cs.Cid,c.name as customer_name, cs.Vlicense, v.vtype as Vehicle_type,cs.date FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
       });
     });
   } else {
-    let query = `SELECT cs.Cid,c.name as c_name, cs.Vlicense, v.vtype as V_type ,cs.date FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license`;
+    let query = `SELECT cs.Cid,c.name as customer_name, cs.Vlicense, v.vtype as Vehicle_type ,cs.date FROM cushire cs,customer c, vehicle v  where cs.cid=c.id and cs.vlicense=v.license`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -1211,7 +1212,7 @@ let CusBooksAll = (req, res) => {
 let CusBooks = (req, res) => {
   let { id } = req.params;
   if (id) {
-    let query = `SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
+    let query = `SELECT cs.Cid,c.name as customer_name, cs.Aid, a.name as accommodation_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id and cid = '${id}'`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -1219,7 +1220,7 @@ let CusBooks = (req, res) => {
     });
   } else {
     let query =
-      'SELECT cs.Cid,c.name as c_name, cs.Aid, a.name as a_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
+      'SELECT cs.Cid,c.name as customer_name, cs.Aid, a.name as accommodation_name, cs.Date FROM cusbook cs,customer c, accommodation a  where cs.cid=c.id and cs.aid=a.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
