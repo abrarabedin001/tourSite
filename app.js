@@ -59,30 +59,6 @@ let Customers = (req, res) => {
     });
   }
 };
-let Authenticate = (req, res) => {
-  const { Id, Password } = req.params;
-  console.log(Id, Password);
-  let query = `SELECT * FROM employee where id='${Id}' and password='${Password}'`;
-  console.log(query);
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
-    });
-  });
-};
-
-let Authenticate2 = (req, res) => {
-  const { Id, Password } = req.params;
-  console.log(Id, Password);
-  let query = `SELECT * FROM customer where id='${Id}' and password='${Password}'`;
-  // let query = "SELECT * FROM customer";
-  console.log(query);
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
-    });
-  });
-};
 
 let CustomersPost = (req, res) => {
   console.log(req.body);
@@ -131,6 +107,35 @@ let CustomersPatch = (req, res) => {
     });
   });
 };
+
+
+
+let Authenticate = (req, res) => {
+  const { Id, Password } = req.params;
+  console.log(Id, Password);
+  let query = `SELECT * FROM employee where id='${Id}' and password='${Password}'`;
+  console.log(query);
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
+let Authenticate2 = (req, res) => {
+  const { Id, Password } = req.params;
+  console.log(Id, Password);
+  let query = `SELECT * FROM customer where id='${Id}' and password='${Password}'`;
+  // let query = "SELECT * FROM customer";
+  console.log(query);
+  database.query(query, function (error, data) {
+    res.json({
+      data: data,
+    });
+  });
+};
+
+
 
 //////////////////////////////////
 
@@ -447,14 +452,6 @@ let receiptsDelete = (req, res) => {
 /////////////////////////////////////
 
 let CustbuysAll = (req, res) => {
-  // let query = `SELECT * FROM custbuy`;
-  // database.query(query, function (error, data) {
-  //   res.json({
-  //     data: data,
-  //   });
-  // });
-  // SELECT * FROM custbuy where Cid = '03' and Pid='01 and Start_date='2022-03-01';
-  // SELECT * from custbuy where Cid = '01' and Pid='02' and Start_date='2022-01-08';
   let { id,id1,id2 } = req.params;
   if (id) {
     let query = `SELECT * from custbuy where Cid = '${id}' and Pid='${id1}' and Booking_date='${id2}'`;
@@ -474,11 +471,10 @@ let CustbuysAll = (req, res) => {
     });
   }
 };
-// CustbuysPatch
+
 let CustbuysPatch = (req, res) => {
   let { id,id1,id2 } = req.params;
   const { Cid, Pid,Booking_date, Start_date, End_date,Paid_unpaid } = req.body;
-// update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
   console.log("inside custbuy")
   let query = `update custbuy 
   set Cid='${Cid}', Pid='${Pid}',Booking_date='${Booking_date}',Start_date='${Start_date}',End_date= '${End_date}',Paid_unpaid='${Paid_unpaid}'
@@ -499,7 +495,6 @@ let CustbuysPatch = (req, res) => {
 let CustbuysGet = (req, res) => {
   let { id,id1,id2 } = req.params;
   const { Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
-// update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
   console.log("test1")
   console.log(req.body)
   let query = `SELECT * FROM custbuy where Cid='${id}' and Pid='${id1}' and Booking_date='${id2}'` ;
@@ -515,14 +510,13 @@ let CustbuysGet = (req, res) => {
     });
   });
 };
-// CustbuysGet
-
-
 
 let Custbuys = (req, res) => {
   let {id} = req.params;
   if (id) {
-    let query = `SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Booking_date, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and c.cid="${id}"`;
+    let query = `SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Booking_date,
+     c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p 
+     where c.pid = p.id and c.cid = cus.id and c.cid="${id}"`;
     console.log(query)
     database.query(query, function (error, data) {
       res.json({
@@ -531,7 +525,9 @@ let Custbuys = (req, res) => {
     });
   } else {
     let query =
-      'SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Booking_date, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+      `SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, 
+      c.Booking_date, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, 
+      customer cus, package p where c.pid = p.id and c.cid = cus.id`;
     database.query(query, function (error, data) {
       res.json({
         data: data,
