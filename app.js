@@ -477,9 +477,9 @@ let CustbuysAll = (req, res) => {
 // CustbuysPatch
 let CustbuysPatch = (req, res) => {
   let { id,id1,id2 } = req.params;
-  const { Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
+  const { Cid, Pid,Booking_date, Start_date, End_date,Paid_unpaid } = req.body;
 // update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
-  
+  console.log("inside custbuy")
   let query = `update custbuy 
   set Cid='${Cid}', Pid='${Pid}',Booking_date='${Booking_date}',Start_date='${Start_date}',End_date= '${End_date}',Paid_unpaid='${Paid_unpaid}'
   where Cid = '${id}' and Pid='${id1}' and Booking_date='${id2}'`;
