@@ -168,11 +168,11 @@ let PackagesPatch = (req, res) => {
   console.log(req.body, req.params);
   const { id } = req.params;
 
-  const { Name, Availability, Price} = req.body;
+  const { Name, Availability,Description, Price} = req.body;
 
 
   let query = `UPDATE package
-  SET name= '${Name}', availability='${Availability}', price='${Price}'
+  SET name= '${Name}', availability='${Availability}',Description= '${Description}', price='${Price}'
   WHERE id = '${id}'`;
 
   database.query(query, function (err, data) {
@@ -187,9 +187,9 @@ let PackagesPatch = (req, res) => {
 
 let packagesPost = (req, res) => {
   console.log(req.body);
-  const { Id, Name, Availability } = req.body;
+  const { Id, Name, Availability,Description,Price } = req.body;
 
-  let query = `insert into package (id,name,Availability) values('${Id}','${Name}','${Availability}')`;
+  let query = `insert into package (id,name,Availability,Description, Price) values('${Id}','${Name}','${Availability}','${Description}','${Price}')`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
