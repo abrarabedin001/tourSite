@@ -1205,9 +1205,9 @@ let CusHirePost = (req, res) => {
 };
 
 let CusHireDelete = (req, res) => {
-  const { id, id1 } = req.params;
+  const { id, id1,id2 } = req.params;
 
-  let query = `delete from  CusHire where Cid = "${id}" and vlicense='${id1}'`;
+  let query = `delete from  CusHire where Cid = "${id}" and vlicense='${id1}' and Date='${id2}'`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
@@ -1279,6 +1279,13 @@ let CusBooksDelete = (req, res) => {
 };
 
 ////////////////////////
+
+// A
+app.get('/authenticate/:Id/:Password', Authenticate); //Done
+app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
+
+
+
 app.get('/customersAll/:id?', CustomersAll); //done
 app.get('/customers/:id?', Customers); //done
 app.patch('/customers/:id', CustomersPatch); //done
@@ -1312,9 +1319,9 @@ app.get('/vehiclesAll/:id?',VehiclesAll);
 app.get('/vehicles',Vehicles)
 app.post('/vehicles',VehiclesPost); //done
 app.patch('/vehicles/:id',VehiclesPatch); //done
-
-// VehiclesPatch
 app.delete('/vehicles/:id', VehiclesDelete); //done
+// VehiclesPatch
+
 
 app.get('/dependentsAll/:id1?/:id2?', DependentsAll); //done
 app.get('/dependents/:id?', Dependents); //done
@@ -1351,18 +1358,20 @@ app.get('/accBelongTo', AccBelongTo); //Done
 app.post('/accBelongTo', Acc_belongsToPost); //Done
 app.delete('/accBelongTo/:id1/:id2', Acc_belongsToDelete); //Done
 
-app.get('/authenticate/:Id/:Password', Authenticate); //Done
-app.get('/authenticate2/:Id/:Password', Authenticate2); //Done
 
-app.get('/CusHireAll', CusHireAll); //done
-app.get('/CusHire/:id?', CusHire); //done
-app.post('/CusHire', CusHirePost); //done
-app.delete('/CusHire/:id/:id1', CusHireDelete); //done
 
 app.get('/cusbookAll', CusBooksAll); //Done
 app.get('/cusbook/:id?', CusBooks); //Done
 app.post('/cusbook', CusBooksPost); //Done
 app.delete('/cusbook/:id1/:id2/:id3', CusBooksDelete); //Done
+
+// Wahid
+app.get('/CusHireAll', CusHireAll); //done
+app.get('/CusHire/:id?', CusHire); //done
+app.post('/CusHire', CusHirePost); //done
+app.delete('/CusHire/:id/:id1/:id2', CusHireDelete); //done
+
+
 
 const port = 3001;
 app.listen(port, () => {
