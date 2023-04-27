@@ -457,7 +457,7 @@ let CustbuysAll = (req, res) => {
   // SELECT * from custbuy where Cid = '01' and Pid='02' and Start_date='2022-01-08';
   let { id,id1,id2 } = req.params;
   if (id) {
-    let query = `SELECT * from custbuy where Cid = '${id}' and Pid='${id1}' and Start_date='${id2}'`;
+    let query = `SELECT * from custbuy where Cid = '${id}' and Pid='${id1}' and Booking_date='${id2}'`;
     console.log(query)
     database.query(query, function (error, data) {
       res.json({
@@ -481,8 +481,8 @@ let CustbuysPatch = (req, res) => {
 // update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
   
   let query = `update custbuy 
-  set Cid='${Cid}', Pid='${Pid}',Start_date='${Start_date}',End_date= '${End_date}',Paid_unpaid='${Paid_unpaid}'
-  where Cid = '${id}' and Pid='${id1}' and Start_date='${id2}'`;
+  set Cid='${Cid}', Pid='${Pid}',Booking_date='${Booking_date}',Start_date='${Start_date}',End_date= '${End_date}',Paid_unpaid='${Paid_unpaid}'
+  where Cid = '${id}' and Pid='${id1}' and Booking_date='${id2}'`;
 
   console.log(query)
 
@@ -502,7 +502,7 @@ let CustbuysGet = (req, res) => {
 // update custbuy set Cid='03', Pid='03',Start_date='2022-03-08T00:00:00.000Z',End_date= '2022-03-14T00:00:00.000Z' where Cid = '03' and Pid='03' and Start_date='2022-03-08';
   console.log("test1")
   console.log(req.body)
-  let query = `SELECT * FROM custbuy where Cid='${id}' and Pid='${id1}' and Start_date='${id2}'` ;
+  let query = `SELECT * FROM custbuy where Cid='${id}' and Pid='${id1}' and Booking_date='${id2}'` ;
 
   console.log(query)
 
@@ -522,7 +522,7 @@ let CustbuysGet = (req, res) => {
 let Custbuys = (req, res) => {
   let {id} = req.params;
   if (id) {
-    let query = `SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and c.cid="${id}"`;
+    let query = `SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Booking_date, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id and c.cid="${id}"`;
     console.log(query)
     database.query(query, function (error, data) {
       res.json({
@@ -531,7 +531,7 @@ let Custbuys = (req, res) => {
     });
   } else {
     let query =
-      'SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
+      'SELECT c.Cid, cus.name as customer_name, c.Pid, p.name as package_name, c.Booking_date, c.Start_date, c.End_date,p.Price, c.Paid_unpaid FROM custbuy c, customer cus, package p where c.pid = p.id and c.cid = cus.id';
     database.query(query, function (error, data) {
       res.json({
         data: data,
@@ -541,10 +541,10 @@ let Custbuys = (req, res) => {
 };
 
 let custbuysPost = (req, res) => {
-  const {Cid, Pid, Start_date, End_date,Paid_unpaid } = req.body;
+  const {Cid, Pid,Booking_date, Start_date, End_date,Paid_unpaid } = req.body;
 
-  let query = `insert into custbuy (Cid, Pid, Start_date, End_date,Paid_unpaid)
-  values('${Cid}', '${Pid}',' ${Start_date}', '${End_date}','${Paid_unpaid}')`;
+  let query = `insert into custbuy (Cid, Pid, Booking_date, Start_date, End_date,Paid_unpaid)
+  values('${Cid}', '${Pid}',' ${Booking_date}',' ${Start_date}', '${End_date}','${Paid_unpaid}')`;
 
   database.query(query, function (err, data) {
     if (err) throw err;
@@ -560,7 +560,7 @@ let custbuysDelete = (req, res) => {
   console.log("custBuyDel")
   const { id1, id2,id3 } = req.params;
 // delete from   custbuy where cid = "04"  and Pid = "04" and Start_Date="2022-04-08T00:00:00.000Z";
-  let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" and Start_Date="${id3}" `;
+  let query = `delete from   custbuy where cid = "${id1}"  and Pid = "${id2}" and Booking_Date="${id3}" `;
   console.log(query)
   database.query(query, function (err, data) {
     if (err) throw err;
