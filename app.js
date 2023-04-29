@@ -1031,7 +1031,8 @@ let DriveDelete = (req, res) => {
 ////////////////////////////////////////
 
 let AccoAll = (req, res) => {
-  var query = 'SELECT a.Id, a.Name, a.Lid, l.name as location_name FROM accommodation a, location l where a.lid=l.id';
+  // var query = 'SELECT a.Id, a.Name, a.Lid, l.name as location_name FROM accommodation a, location l where a.lid=l.id';
+  var query = 'SELECT * from accommodation';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -1040,7 +1041,7 @@ let AccoAll = (req, res) => {
 };
 
 let Acco = (req, res) => {
-  var query = 'SELECT a.Id, a.Name, a.Lid, l.name as location_name FROM accommodation a, location l where a.lid=l.id';
+  var query = 'SELECT a.Id, a.Name, a.Lid, l.name as location_name,a.contact FROM accommodation a, location l where a.lid=l.id';
   database.query(query, function (error, data) {
     res.json({
       data: data,
@@ -1050,8 +1051,8 @@ let Acco = (req, res) => {
 let accommodationsPost = (req, res) => {
   const { Id, Lid, Name, Contact, Price } = req.body;
 
-  let query = `insert into accommodation(Id, Lid, Name, Contact, Price)
-  values('${Id}', '${Lid}', '${Name}', '${Contact}', '${Price}')`;
+  let query = `insert into accommodation(Id, Lid, Name, Contact)
+  values('${Id}', '${Lid}', '${Name}', '${Contact}')`;
 
   database.query(query, function (err, data) {
     if (err) throw err;
