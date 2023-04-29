@@ -1186,9 +1186,9 @@ let CusHire = (req, res) => {
 };
 
 let CusHirePost = (req, res) => {
-  const { cid, Vlicense } = req.body;
+  const { Cid, Vlicense, Date } = req.body;
   console.log(req.body);
-  let query = `insert into CusHire (cid, Vlicense) values('${cid}','${Vlicense}')`;
+  let query = `insert into CusHire (cid, Vlicense, date) values('${Cid}','${Vlicense}','${Date}')`;
   console.log(query);
   database.query(query, function (err, data) {
     if (err) throw err;
@@ -1203,7 +1203,7 @@ let CusHirePost = (req, res) => {
 let CusHireDelete = (req, res) => {
   const { id, id1,id2 } = req.params;
 
-  let query = `delete from  CusHire where Cid = "${id}" and vlicense='${id1}' and Date='${id2}'`;
+  let query = `delete from  CusHire where Cid = "${id}" and vlicense='${id1}' and date='${id2}'`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
