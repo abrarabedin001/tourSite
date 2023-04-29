@@ -1247,10 +1247,10 @@ let CusBooks = (req, res) => {
 };
 
 let CusBooksPost = (req, res) => {
-  const { Cid, Aid } = req.body;
+  const { Cid, Aid,Date } = req.body;
 
-  let query = `insert into CusBook(Cid, Aid)
-  values('${Cid}', '${Aid}')`;
+  let query = `insert into CusBook(Cid, Aid,Date)
+  values('${Cid}', '${Aid}','${Date}')`;
   database.query(query, function (err, data) {
     if (err) throw err;
     res.json({
