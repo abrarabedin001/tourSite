@@ -628,10 +628,10 @@ let EworksInAll = (req, res) => {
   //     });
   //   });
   // };
-  let { id1, id2 } = req.params;
+  let { id1, id2,id3 } = req.params;
   console.log('kaj kore');
   if ((id1, id2)) {
-    let query = `Select * from eworksin where Lid='${id1}' and Emp_id ='${id2}'`;
+    let query = `Select * from eworksin where Lid='${id1}' and Emp_id ='${id2}' and Date='${id3}'`;
     console.log(query);
     database.query(query, function (error, data) {
       res.json({
@@ -1306,7 +1306,7 @@ app.post('/employees', employeesPost); //Done
 app.patch('/employees/:id', employeesPatch); //Done
 app.delete('/employees/:id', employeesDelete); //Done
 
-app.get('/eworksinAll/:id1?/:id2?', EworksInAll); //done
+app.get('/eworksinAll/:id1?/:id2?/:id3?', EworksInAll); //done
 app.get('/eworksin/:id?', EworksIn); //done
 app.post('/eworksin', EworksinPost); //done
 app.patch('/eworksin/:id1/:id2', EworksinPatch); //done
