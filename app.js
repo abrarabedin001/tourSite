@@ -628,7 +628,7 @@ let EworksInAll = (req, res) => {
   //     });
   //   });
   // };
-  let { id1, id2,id3 } = req.params;
+  let { id1, id2,id3 } = req.params; 
   console.log('kaj kore');
   if ((id1, id2)) {
     let query = `Select * from eworksin where Lid='${id1}' and Emp_id ='${id2}' and Date='${id3}'`;
