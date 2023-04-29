@@ -972,14 +972,28 @@ let DrivesAll = (req, res) => {
     };
 
 let Drives = (req, res) => {
-  var query1 = 'SELECT * FROM drive';
-  var query =
-    'SELECT d.Emp_id, e.user_name as employee_name ,d.Vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
-  database.query(query, function (error, data) {
-    res.json({
-      data: data,
-    });
-  });
+ 
+  let { id} = req.params;
+    if (id) {
+      console.log(id)
+      var query =
+      `SELECT d.Emp_id, e.user_name as employee_name ,d.Vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id and d.emp_id='${id}'`;
+      console.log(query)
+      database.query(query, function (error, data) {
+        res.json({
+          data: data,
+        });
+      });
+    } else {
+      
+      let query = 'SELECT d.Emp_id, e.user_name as employee_name ,d.Vlicense ,d.date FROM drive d, employee e where e.id=d.emp_id';
+      console.log(query)
+      database.query(query, function (error, data) {
+        res.json({
+          data: data,
+        });
+      });
+    }
 };
 let DrivePost = (req, res) => {
   const { Emp_id, Vlicense, Date } = req.body;
@@ -1339,7 +1353,7 @@ app.post('/package_has', package_hasPost); //done
 app.delete('/package_has/:id1/:id2', package_hasDelete); //done
 
 app.get('/drivesAll/:id?/:id1?', DrivesAll); //Done
-app.get('/drives', Drives); //Done
+app.get('/drives/:id?', Drives); //Done
 app.patch('/drives/:id1/:id2/:id3',DrivesPatch)
 app.post('/drives', DrivePost); //Done
 app.delete('/drives/:id1/:id2/:id3', DriveDelete); //Done
